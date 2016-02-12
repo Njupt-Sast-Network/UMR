@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{$site_name}</title>
+    <meta name="keywords" content="{$site_seo_keywords}"/>
+    <meta name="description" content="{$site_seo_description}">
+    <meta name="author" content="ThinkCMF">
+    <tc_include file="Public:head"/>
+</head>
+<body class="body-white" id="top">
+<tc_include file="Public:nav"/>
+<div class="container tc-main">
+    <div class="row">
+        <div class="span3">
+            <tc_include file="Public:usernav"/>
+        </div>
+        <div class="span9">
+            <div class="tabs">
+                <ul class="nav nav-tabs">
+                    <li class="active"><a href="#one" data-toggle="tab"><i class="fa fa-pencil"></i> 上传论文</a></li>
+                    <li><a href="{:U('user/profile/upload_project')}"><i class="fa fa-pencil"></i> 上传项目</a></li>
+                    <li><a href="{:U('user/profile/upload_awards')}"><i class="fa fa-pencil"></i> 上传获奖</a></li>
+                    <li><a href="{:U('user/profile/upload_patent')}"><i class="fa fa-pencil"></i> 上传专利</a></li>
+                </ul>
+                <div class="tab-content">
+                    <form action="{:U('AdminPage/add_post')}" method="post" class="form-horizontal js-ajax-forms"
+                          enctype="multipart/form-data">
+                        <input type="hidden" name="post[post_type]" value="2">
+                        <div class="row-fluid">
+
+                            <table class="table table-bordered">
+                                <tr>
+                                    <th width="80">标题</th>
+                                    <td>
+                                        <input type="text" style="width: 400px;" name="post[post_title]" id="title"
+                                               value="" placeholder="请输入标题"/>
+                                        <span class="form-required">*</span>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <th>关键词</th>
+                                    <td><input type="text" name="post[post_keywords]" id="keywords" value=""
+                                               style="width: 280px" placeholder="请输入关键字"> 多关键词之间用空格隔开
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>摘要</th>
+                                    <td><textarea name="post[post_excerpt]" id="description"
+                                                  style='width: 98%; height: 200px;'></textarea></td>
+                                </tr>
+                                <tr>
+                                    <th>内容</th>
+                                    <td>
+                                        <script type="text/plain" id="content" name="post[post_content]"></script>
+                                    </td>
+                                </tr>
+                            </table>
+                            <div class="form-actions">
+                                <button class="btn btn-primary js-ajax-submit" type="submit">{:L('ADD')}</button>
+                                <a class="btn" href="{:U('AdminPage/index')}">{:L('BACK')}</a>
+                            </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <tc_include file="Public:footer"/>
+
+</div>
+<!-- /container -->
+
+<tc_include file="Public:scripts"/>
+</body>
+</html>

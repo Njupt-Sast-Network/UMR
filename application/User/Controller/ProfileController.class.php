@@ -96,7 +96,22 @@ class ProfileController extends MemberbaseController {
     	$this->assign("oauths",$new_oauths);
     	$this->display();
     }
-    
+    function upload_article(){
+        //TO-DO
+        $this->display();
+    }
+    function upload_project(){
+        //TO-DO
+        $this->display();
+    }
+    function upload_awards(){
+        //TO-DO
+        $this->display();
+    }
+    function upload_patent(){
+        //TO-DO
+        $this->display();
+    }            
     function avatar(){
     	$userid=sp_get_current_userid();
 		$user=$this->users_model->where(array("id"=>$userid))->find();
