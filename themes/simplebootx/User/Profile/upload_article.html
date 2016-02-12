@@ -30,42 +30,81 @@
 
                             <table class="table table-bordered">
                                 <tr>
-                                    <th width="80">标题</th>
+                                    <th  width="80">论文/著作</th>
                                     <td>
-                                        <input type="text" style="width: 400px;" name="post[post_title]" id="title"
-                                               value="" placeholder="请输入标题"/>
+                                        <input type="text"  name="post[post_title]" id="title"
+                                               value="" placeholder="请输入论文/著作标题"/>
                                         <span class="form-required">*</span>
                                     </td>
                                 </tr>
-
                                 <tr>
-                                    <th>关键词</th>
-                                    <td><input type="text" name="post[post_keywords]" id="keywords" value=""
-                                               style="width: 280px" placeholder="请输入关键字"> 多关键词之间用空格隔开
+                                    <th width="80">期刊/出版社</th>
+                                    <td>
+                                        <input type="text"  name="post[post_title]" id="title"
+                                               value="" placeholder="请输入期刊/出版社"/>
+                                        <span class="form-required">*</span>
                                     </td>
                                 </tr>
                                 <tr>
-                                    <th>摘要</th>
-                                    <td><textarea name="post[post_excerpt]" id="description"
-                                                  style='width: 98%; height: 200px;'></textarea></td>
+                                    <th width="80">出版年月</th>
+                                    <td>
+                                   			<input class="js-date" type="text" id="input-publicdate" placeholder="2016-01-01" name="publicdate" value="{$publicdate}" style="width:90px">
+                                        <span class="form-required">*</span>
+                                    </td>
                                 </tr>
                                 <tr>
-                                    <th>内容</th>
+                                    <th width="80">卷号页码等信息</th>
+                                    <td>
+                                        <input type="text"  name="post[post_title]" id="title"
+                                               value="" placeholder="请输入卷号页码等信息"/>
+                                        <span class="form-required">*</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th width="80">作者列表</th>
+                                    <td>
+                                        <input type="text"  name="post[post_title]" id="title"
+                                               value="" placeholder="请输入作者列表"/>
+                                        <span class="form-required">*</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th width="80">本人贡献度</th>
+                                    <td>
+                                        <input type="number" value="" min="1" max="100" style="width: 50px">%  &nbsp;
+
+                                        <span class="form-required">*</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th width="80">期刊级别（1-6类）</th>
+                                    <td>
+                                        <select class="form-control" style="width:90px;">
+                                        	<option>请选择</option>
+	                                        <option>1类</option>
+	                                        <option>2类</option>
+	                                        <option>3类</option>
+	                                        <option>4类</option>
+	                                        <option>5类</option>
+	                                        <option>6类</option>
+                                        </select>
+                                        <span class="form-required">*</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th width="80">证明材料</th>
                                     <td>
                                         <script type="text/plain" id="content" name="post[post_content]"></script>
                                     </td>
                                 </tr>
                             </table>
-                            <div class="form-actions">
-                                <button class="btn btn-primary js-ajax-submit" type="submit">{:L('ADD')}</button>
-                                <a class="btn" href="{:U('AdminPage/index')}">{:L('BACK')}</a>
-                            </div>
+                                <button class="btn btn-primary js-ajax-submit" type="submit">上传</button>
                     </form>
                 </div>
             </div>
         </div>
     </div>
-
+		
     <tc_include file="Public:footer"/>
 
 </div>

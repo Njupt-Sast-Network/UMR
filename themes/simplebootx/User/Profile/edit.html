@@ -24,16 +24,16 @@
                                    <div class="tab-pane active" id="one">
                                    		<form class="form-horizontal js-ajax-form" action="{:U('profile/edit_post')}" method="post">
                                    			<div class="control-group">
-                                   				<label class="control-label" for="input-user_nicename">昵称</label>
+                                   				<label class="control-label" for="input-user_nicename">姓名</label>
                                    				<div class="controls">
-                                   					<input type="text" id="input-user_nicename" placeholder="昵称" name="user_nicename" value="{$user_nicename}">
+                                   					<input type="text" id="input-user_nicename" placeholder="姓名" name="user_nicename" value="{$user_nicename}">
                                    				</div>
                                    			</div>
                                    			<div class="control-group">
                                    				<label class="control-label" for="input-sex">性别</label>
                                    				<div class="controls">
                                    					<php>
-	                                   				$sexs=array("0"=>"保密","1"=>"程序猿","2"=>"程序媛");
+	                                   				$sexs=array("1"=>"男","2"=>"女");
 	                                   				</php>
                                    					<select id="input-sex" name="sex">
                                    						<foreach name="sexs" item="vo">
@@ -52,7 +52,7 @@
                                    			<div class="control-group">
                                    				<label class="control-label" for="input-user_url">个人网址</label>
                                    				<div class="controls">
-                                   					<input type="text" id="input-user_url" placeholder="http://thinkcmf.com" name="user_url" value="{$user_url}">
+                                   					<input type="text" id="input-user_url" placeholder="http://example.com" name="user_url" value="{$user_url}">
                                    				</div>
                                    			</div>
                                    			<div class="control-group">

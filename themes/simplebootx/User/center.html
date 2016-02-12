@@ -40,7 +40,7 @@
 										  </div>      
 										  <div class="span3">
                                    			<div class="control-group">
-                                   				<label class="control-label" for="input-user_nicename">昵称</label>
+                                   				<label class="control-label" for="input-user_nicename">姓名</label>
                                    				<div class="controls">
                                    					{$user_nicename|default='未填写'}
                                    				</div>
@@ -49,7 +49,7 @@
                                    				<label class="control-label" for="input-sex">性别</label>
                                    				<div class="controls">
                                    				<php>
-                                   				$sexs=array("0"=>"保密","1"=>"程序猿","2"=>"程序媛");
+                                   				$sexs=array("0"=>"保密","1"=>"男","2"=>"女");
                                    				
                                    				</php>
                                    					{$sexs[$sex]}
