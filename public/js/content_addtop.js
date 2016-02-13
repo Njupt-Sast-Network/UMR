@@ -1,70 +1,69 @@
-
 //弹出对话框
 function omnipotent(id, linkurl, title, close_type, w, h) {
     if (!w) w = 700;
     if (!h) h = 500;
-    Wind.use("artDialog","iframeTools",function(){
+    Wind.use("artDialog", "iframeTools", function () {
         art.dialog.open(linkurl, {
-        id: id,
-        title: title,
-        width: w,
-        height: h,
-        lock: true,
-        fixed: true,
-        background:"#CCCCCC",
-        opacity:0,
-        button: [{
-            name: '确定',
-            callback: function () {
-                if (close_type == 1) {
-                    return true;
-                } else {
-                    var d = this.iframe.contentWindow;
-                    var form = d.document.getElementById('dosubmit');
-                    form.click();
-                }
-                return false;
-           },
-           focus: true
-        }]
+            id: id,
+            title: title,
+            width: w,
+            height: h,
+            lock: true,
+            fixed: true,
+            background: "#CCCCCC",
+            opacity: 0,
+            button: [{
+                name: '确定',
+                callback: function () {
+                    if (close_type == 1) {
+                        return true;
+                    } else {
+                        var d = this.iframe.contentWindow;
+                        var form = d.document.getElementById('dosubmit');
+                        form.click();
+                    }
+                    return false;
+                },
+                focus: true
+            }]
+        });
     });
-    });
-    
+
 }
 
 /**
-swf上传完回调方法
-uploadid dialog id
-name dialog名称
-textareaid 最后数据返回插入的容器id
-funcName 回调函数
-args 参数
-module 所属模块
-catid 栏目id
-authkey 参数密钥，验证args
-**/
+ swf上传完回调方法
+ uploadid dialog id
+ name dialog名称
+ textareaid 最后数据返回插入的容器id
+ funcName 回调函数
+ args 参数
+ module 所属模块
+ catid 栏目id
+ authkey 参数密钥，验证args
+ **/
 function flashupload(uploadid, name, textareaid, funcName, args, module, catid, authkey) {
     var args = args ? '&args=' + args : '';
-    var setting = '&module=' + module + '&catid=' + catid ;
-    Wind.use("artDialog","iframeTools",function(){
-        art.dialog.open(GV.DIMAUB+'index.php?a=swfupload&m=asset&g=asset' + args + setting, {
-        title: name,
-        id: uploadid,
-        width: '650px',
-        height: '420px',
-        lock: true,
-        fixed: true,
-        background:"#CCCCCC",
-        opacity:0,
-        ok: function() {
-            if (funcName) {
-                funcName.apply(this, [this, textareaid]);
-            } else {
-                submit_ckeditor(this, textareaid);
-            }
-        },
-        cancel: true
-    });
+    var setting = '&module=' + module + '&catid=' + catid;
+    Wind.use("artDialog", "iframeTools", function () {
+        art.dialog.open(GV.DIMAUB + 'index.php?a=swfupload&m=asset&g=asset' + args + setting, {
+            title: name,
+            id: uploadid,
+            width: '650px',
+            height: '420px',
+            lock: true,
+            fixed: true,
+            background: "#CCCCCC",
+            opacity: 0,
+            ok: function () {
+                if (funcName) {
+                    funcName.apply(this, [this, textareaid]);
+                } else {
+                    submit_ckeditor(this, textareaid);
+                }
+            },
+            cancel: true
+        });
     });
 }
 
@@ -78,10 +77,10 @@ function change_images(uploadid, returnid) {
     var filenames = in_filename.split('|');
     $('#' + returnid + '_tips').css('display', 'none');
     if (contents == '') return true;
-    $.each(contents, function(i, n) {
+    $.each(contents, function (i, n) {
         var ids = parseInt(Math.random() * 10000 + 10 * i);
         var filename = filenames[i].substr(0, filenames[i].indexOf('.'));
-        str += "<li id='image" + ids + "'><input title='双击查看' type='text' name='" + returnid + "_url[]' value='" + n + "' style='width:310px;' ondblclick='image_priview(this.value);' class='input image-url-input'> <input type='text' name='" + returnid + "_alt[]' value='" + filename + "' style='width:160px;' class='input image-alt-input' onfocus=\"if(this.value == this.defaultValue) this.value = ''\" onblur=\"if(this.value.replace(' ','') == '') this.value = this.defaultValue;\"> <a href=\"javascript:flashupload('replace_albums_images', '图片替换','image"+ids+"',replace_image,'10,gif|jpg|jpeg|png|bmp,0','','','')\">替换</a>  <a href=\"javascript:remove_div('image" + ids + "')\">移除</a> </li>";
+        str += "<li id='image" + ids + "'><input title='双击查看' type='text' name='" + returnid + "_url[]' value='" + n + "' style='width:310px;' ondblclick='image_priview(this.value);' class='input image-url-input'> <input type='text' name='" + returnid + "_alt[]' value='" + filename + "' style='width:160px;' class='input image-alt-input' onfocus=\"if(this.value == this.defaultValue) this.value = ''\" onblur=\"if(this.value.replace(' ','') == '') this.value = this.defaultValue;\"> <a href=\"javascript:flashupload('replace_albums_images', '图片替换','image" + ids + "',replace_image,'10,gif|jpg|jpeg|png|bmp,0','','','')\">替换</a>  <a href=\"javascript:remove_div('image" + ids + "')\">移除</a> </li>";
     });
 
     $('#' + returnid).html(str);
@@ -96,10 +95,10 @@ function replace_image(uploadid, returnid) {
     var filenames = in_filename.split('|');
     $('#' + returnid + '_tips').css('display', 'none');
     if (contents == '') return true;
-    
-    $("#"+returnid).find(".image-url-input").val(contents[0]);
+
+    $("#" + returnid).find(".image-url-input").val(contents[0]);
     var filename = filenames[0].substr(0, filenames[0].indexOf('.'));
-    $("#"+returnid).find(".image-alt-input").val(filename);
+    $("#" + returnid).find(".image-alt-input").val(filename);
 }
 
 //多图上传，SWF回调函数
@@ -112,7 +111,7 @@ function upload_zip(uploadid, returnid) {
     var filenames = in_filename.split('|');
     $('#' + returnid + '_tips').css('display', 'none');
     if (contents == '') return true;
-    $.each(contents, function(i, n) {
+    $.each(contents, function (i, n) {
         var ids = parseInt(Math.random() * 10000 + 10 * i);
         var filename = filenames[i].substr(0, filenames[i].indexOf('.'));
         str += "<li id='image" + ids + "'><input title='双击查看' type='text' name='" + returnid + "_url' value='" + n + "' style='width:310px;' ondblclick='image_priview(this.value);' class='input'> <input type='text' name='" + returnid + "_alt[]' value='" + filename + "' style='width:160px;' class='input' onfocus=\"if(this.value == this.defaultValue) this.value = ''\" onblur=\"if(this.value.replace(' ','') == '') this.value = this.defaultValue;\"> <a href=\"javascript:remove_div('image" + ids + "')\">移除</a> </li>";
@@ -122,10 +121,10 @@ function upload_zip(uploadid, returnid) {
 }
 
 //编辑器ue附件上传
-function ueAttachment(uploadid, returnid){
+function ueAttachment(uploadid, returnid) {
     var d = uploadid.iframe.contentWindow;
     var in_content = d.$("#att-status").html().substring(1);
-    if (in_content == ''){
+    if (in_content == '') {
         return false;
     }
     in_content = in_content.split("|");
@@ -133,12 +132,12 @@ function ueAttachment(uploadid, returnid){
     var in_filename = d.$("#att-name").html().substring(1);
     var filenames = in_filename.split('|');
 
-    eval("var ue = editor"+ returnid);
-    
-    for(i=0; i<in_content.length; i++){
-        ue.execCommand('inserthtml', '<a href="'+in_content[i]+'" target="_blank">附件：'+filenames[i]+'</a>');
+    eval("var ue = editor" + returnid);
+
+    for (i = 0; i < in_content.length; i++) {
+        ue.execCommand('inserthtml', '<a href="' + in_content[i] + '" target="_blank">附件：' + filenames[i] + '</a>');
     }
-    
+
 }
 
 //多文件上传回调
@@ -151,7 +150,7 @@ function change_multifile(uploadid, returnid) {
     var filenames = in_filename.split('|');
     $('#' + returnid + '_tips').css('display', 'none');
     if (contents == '') return true;
-    $.each(contents, function(i, n) {
+    $.each(contents, function (i, n) {
         var ids = parseInt(Math.random() * 10000 + 10 * i);
         var filename = filenames[i].substr(0, filenames[i].indexOf('.'));
         str += "<li id='multifile" + ids + "'><input type='text' name='" + returnid + "_fileurl[]' value='" + n + "' style='width:310px;' class='input'> <input type='text' name='" + returnid + "_filename[]' value='" + filename + "' style='width:160px;' class='input' onfocus=\"if(this.value == this.defaultValue) this.value = ''\" onblur=\"if(this.value.replace(' ','') == '') this.value = this.defaultValue;\"> <a href=\"javascript:remove_div('multifile" + ids + "')\">移除</a> </li>";
@@ -177,8 +176,8 @@ function thumb_images(uploadid, returnid) {
     $('#' + returnid).val(in_content);
 }
 
-function change_onefile(uploadid, returnid){
-	var d = uploadid.iframe.contentWindow;
+function change_onefile(uploadid, returnid) {
+    var d = uploadid.iframe.contentWindow;
     var in_content = d.$("#att-status").html().substring(1);
     var in_filename = d.$("#att-name").html().substring(1);
     var str = '';
@@ -190,19 +189,19 @@ function change_onefile(uploadid, returnid){
 }
 
 //提示框 alert
-function isalert(content,icon){
-    if(content == ''){
+function isalert(content, icon) {
+    if (content == '') {
         return;
     }
-    icon = icon|| "error";
-    Wind.use("artDialog",function(){
+    icon = icon || "error";
+    Wind.use("artDialog", function () {
         art.dialog({
-            id:icon,
+            id: icon,
             icon: icon,
             fixed: true,
             lock: true,
-            background:"#CCCCCC",
-            opacity:0,
+            background: "#CCCCCC",
+            opacity: 0,
             content: content,
             cancelVal: '确定',
             cancel: true
@@ -212,23 +211,23 @@ function isalert(content,icon){
 
 //图片使用dialog查看
 function image_priview(img) {
-    if(img == ''){
+    if (img == '') {
         return;
     }
     if (!IsImg(img)) {
         isalert('选择的类型必须为图片类型！');
         return false;
     }
-    Wind.use("artDialog",function(){
+    Wind.use("artDialog", function () {
         art.dialog({
             title: '图片查看',
             fixed: true,
-            width:"600px",
+            width: "600px",
             height: '420px',
-            id:"image_priview",
+            id: "image_priview",
             lock: true,
-            background:"#CCCCCC",
-            opacity:0,
+            background: "#CCCCCC",
+            opacity: 0,
             content: '<img src="' + img + '" />',
             time: 5
         });

@@ -1,4 +1,4 @@
-jQuery.cookie = function(name, value, options) {
+jQuery.cookie = function (name, value, options) {
     if (typeof value != 'undefined') { // name and value given, set cookie
         options = options || {};
         if (value === null) {

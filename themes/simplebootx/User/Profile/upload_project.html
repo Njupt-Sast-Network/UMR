@@ -1,51 +1,93 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>{$site_name}</title>
-<meta name="keywords" content="{$site_seo_keywords}" />
-<meta name="description" content="{$site_seo_description}">
-<meta name="author" content="ThinkCMF">
-<tc_include file="Public:head" />
+    <title>{$site_name}</title>
+    <meta name="keywords" content="{$site_seo_keywords}"/>
+    <meta name="description" content="{$site_seo_description}">
+    <meta name="author" content="ThinkCMF">
+    <tc_include file="Public:head"/>
 </head>
 <body class="body-white" id="top">
-	<tc_include file="Public:nav" />
+<tc_include file="Public:nav"/>
 
-		<div class="container tc-main">
-                <div class="row">
-                    <div class="span3">
-	                    <tc_include file="Public:usernav"/>
-                    </div>
-                    <div class="span9">
-                           <div class="tabs">
-                               <ul class="nav nav-tabs">
-                                   <li ><a href="{:U('user/profile/upload_article')}" ><i class="fa fa-pencil"></i> 上传论文</a></li>
-                                   <li class="active"><a  ><i class="fa fa-pencil"></i> 上传项目</a></li>
-                                   <li ><a href="{:U('user/profile/upload_awards')}" ><i class="fa fa-pencil"></i> 上传获奖</a></li>
-                                   <li ><a href="{:U('user/profile/upload_patent')}" ><i class="fa fa-pencil"></i> 上传专利</a></li>
-                               </ul>
-                               <div class="tab-content">
-                                   <div class="tab-pane active" id="one">
-	                                   <if condition="!empty($oauths['qq'])">
-	                                   		<button class="btn"><i class="fa fa-qq"></i> 已绑定腾讯QQ账号</button>
-	                                   <else/>
-	                                   		<a class="btn btn-primary" href="{:U('api/oauth/bang',array('type'=>'qq'))}"><i class="fa fa-qq"></i> 绑定腾讯QQ账号</a>
-	                                   </if>
-	                                   <if condition="!empty($oauths['sina'])">
-	                                   		<button class="btn"><i class="fa fa-weibo"></i> 已绑定新浪微博账号</button>
-	                                   <else/>
-	                                   		<a class="btn btn-primary" href="{:U('api/oauth/bang',array('type'=>'sina'))}"><i class="fa fa-weibo"></i> 绑定新浪微博账号</a>
-	                                   </if>
-                                   </div>
-                               </div>							
-                           </div>
-                    </div>
+<div class="container tc-main">
+    <div class="row">
+        <div class="span3">
+            <tc_include file="Public:usernav"/>
+        </div>
+        <div class="span9">
+            <div class="tabs">
+                <ul class="nav nav-tabs">
+                    <li><a href="{:U('user/profile/upload_article')}"><i class="fa fa-pencil"></i> 上传论文</a></li>
+                    <li class="active"><a><i class="fa fa-pencil"></i> 上传项目</a></li>
+                    <li><a href="{:U('user/profile/upload_awards')}"><i class="fa fa-pencil"></i> 上传获奖</a></li>
+                    <li><a href="{:U('user/profile/upload_patent')}"><i class="fa fa-pencil"></i> 上传专利</a></li>
+                </ul>
+                <div class="tab-content">
+                    <form action="{:U('AdminPage/add_post')}" method="post" class="form-horizontal js-ajax-forms"
+                          enctype="multipart/form-data">
+                        <input type="hidden" name="post[post_type]" value="2">
+                        <div class="row-fluid">
+
+                            <table class="table table-bordered">
+                                <tr>
+                                    <th width="80">项目名称</th>
+                                    <td>
+                                        <input type="text" name="post[post_title]" id="title"
+                                               value="" placeholder="请输入项目名称"/>
+                                        <span class="form-required">*</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th width="80">类型</th>
+                                    <td>
+                                        <input type="text" name="post[post_title]" id="title"
+                                               value="" placeholder="请输入类型"/>
+                                        <span class="form-required">*</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th width="80">项目级别</th>
+                                    <td>
+                                        <select class="form-control" style="width:90px;">
+                                            <option>请选择</option>
+                                            <option>国家级</option>
+                                            <option>省部级</option>
+                                            <option>市厅级</option>
+                                            <option>校级</option>
+                                            <option>其它</option>
+                                        </select>
+                                        <span class="form-required">*</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th width="80">项目经费额度</th>
+                                    <td>
+                                        <input type="number" value="50000" min="0" step="10000" style="width: 70px">元
+                                        &nbsp;
+
+                                        <span class="form-required">*</span>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <th width="80">证明材料</th>
+                                    <td>
+                                        <script type="text/plain" id="content" name="post[post_content]"></script>
+                                    </td>
+                                </tr>
+                            </table>
+                            <button class="btn btn-primary js-ajax-submit" type="submit">上传</button>
+                    </form>
                 </div>
+            </div>
+        </div>
 
-		<tc_include file="Public:footer" />
+        <tc_include file="Public:footer"/>
 
-	</div>
-	<!-- /container -->
+    </div>
+    <!-- /container -->
 
-	<tc_include file="Public:scripts" />
+    <tc_include file="Public:scripts"/>
 </body>
 </html>
