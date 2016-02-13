@@ -40,12 +40,12 @@
                         <tbody>
                         <tr>
                             <td style="display: none;">{$vo.id}</td>
-                            <td>存在的价值——读波伏瓦《人都是要死的》</td>
+                            <td><a href="{$vo.url}">存在的价值——读波伏瓦《人都是要死的》</a></td>
                             <td>本报记者 孟明 通讯员 张国文 吴永生</td>
                             <td>2015-12-12</td>
                             <td>1230</td>
                             <td>未审核</td>
-                            <td><a href="{$vo.url}">编辑</a> | <a class="js-ajax-dialog-btn" href="{:U('user/favorite/delete_favorite',array('id'=>$vo['id']))}" data-msg="您确定要取消收藏吗？" data-ok="" data-cacel="取消">删除</a></td>
+                            <td><a href="{:U('user/profile/edit_article')}">编辑</a> | <a class="js-ajax-dialog-btn" href="{:U('user/favorite/delete_favorite',array('id'=>$vo['id']))}" data-msg="您确定要删除吗？" data-ok="" data-cacel="取消">删除</a></td>
                           </tr>
                         <foreach name="favorites" item="vo">
                           <tr>

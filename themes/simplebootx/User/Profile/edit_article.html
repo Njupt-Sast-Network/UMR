@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{$site_name}</title>
+    <meta name="keywords" content="{$site_seo_keywords}"/>
+    <meta name="description" content="{$site_seo_description}">
+    <meta name="author" content="ThinkCMF">
+    <tc_include file="Public:head"/>
+</head>
+<body class="body-white" id="top">
+<tc_include file="Public:nav"/>
+<div class="container tc-main">
+    <div class="row">
+        <div class="span3">
+            <tc_include file="Public:usernav"/>
+        </div>
+        <div class="span9">
+            <div class="tabs">
+                <ul class="nav nav-tabs">
+                    <li class="active"><a href="#one" data-toggle="tab"><i class="fa fa-pencil"></i> 上传论文</a></li>
+                    <li><a href="{:U('user/profile/upload_project')}"><i class="fa fa-pencil"></i> 上传项目</a></li>
+                    <li><a href="{:U('user/profile/upload_awards')}"><i class="fa fa-pencil"></i> 上传获奖</a></li>
+                    <li><a href="{:U('user/profile/upload_patent')}"><i class="fa fa-pencil"></i> 上传专利</a></li>
+                </ul>
+                <div class="tab-content">
+                    <form action="{:U('AdminPage/add_post')}" method="post" class="form-horizontal js-ajax-forms"
+                          enctype="multipart/form-data">
+                        <input type="hidden" name="post[post_type]" value="2">
+                        <div class="row-fluid">
+
+                            <table class="table table-bordered">
+                                <tr>
+                                    <th width="80">论文/著作</th>
+                                    <td>
+                                        <input type="text" name="post[post_title]" id="title"
+                                               value="" placeholder="请输入论文/著作标题"/>
+                                        <span class="form-required">*</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th width="80">期刊/出版社</th>
+                                    <td>
+                                        <input type="text" name="post[post_title]" id="title"
+                                               value="" placeholder="请输入期刊/出版社"/>
+                                        <span class="form-required">*</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th width="80">出版年月</th>
+                                    <td>
+                                        <input class="js-date" type="text" id="input-publicdate"
+                                               placeholder="2016-01-01" name="publicdate" value="{$publicdate}"
+                                               style="width:90px">
+                                        <span class="form-required">*</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th width="80">卷号页码等信息</th>
+                                    <td>
+                                        <input type="text" name="post[post_title]" id="title"
+                                               value="" placeholder="请输入卷号页码等信息"/>
+                                        <span class="form-required">*</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th width="80">作者列表</th>
+                                    <td>
+                                        <input type="text" name="post[post_title]" id="title"
+                                               value="" placeholder="请输入作者列表"/>
+                                        <span class="form-required">*</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th width="80">本人贡献度</th>
+                                    <td>
+                                        <input type="number" value="" min="1" max="100" style="width: 50px">% &nbsp;
+
+                                        <span class="form-required">*</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th width="80">期刊级别（1-6类）</th>
+                                    <td>
+                                        <select class="form-control" style="width:90px;">
+                                            <option>请选择</option>
+                                            <option>1类</option>
+                                            <option>2类</option>
+                                            <option>3类</option>
+                                            <option>4类</option>
+                                            <option>5类</option>
+                                            <option>6类</option>
+                                        </select>
+                                        <span class="form-required">*</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th width="80">证明材料</th>
+                                    <td>
+                                        <script type="text/plain" id="content" name="post[post_content]"></script>
+                                    </td>
+                                </tr>
+                            </table>
+                            <button class="btn btn-primary js-ajax-submit" type="submit">保存</button>
+                            <button class="btn btn-primary js-ajax-submit" >取消</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <tc_include file="Public:footer"/>
+
+</div>
+<!-- /container -->
+
+<tc_include file="Public:scripts"/>
+</body>
+</html>
