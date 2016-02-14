@@ -96,40 +96,40 @@ class ProfileController extends MemberbaseController {
     	$this->assign("oauths",$new_oauths);
     	$this->display();
     }
-    function upload_article(){
-        //TO-DO
+    function upload_paper(){
+        //TODO:
         $this->display();
     }
     function upload_project(){
-        //TO-DO
+        //TODO:
         $this->display();
     }
-    function upload_awards(){
-        //TO-DO
+    function upload_award(){
+        //TODO:
         $this->display();
     }
     function upload_patent(){
-        //TO-DO
+        //TODO:
         $this->display();
     }      
     function manage(){
-        //TO-DO
+        //TODO:
         $this->display();
     } 
-    function manage_article(){
-        //TO-DO
+    function manage_paper(){
+        //TODO:
         $this->display();
     }
     function manage_project(){
-        //TO-DO
+        //TODO:
         $this->display();
     }
-    function manage_awards(){
-        //TO-DO
+    function manage_award(){
+        //TODO:
         $this->display();
     }
     function manage_patent(){
-        //TO-DO
+        //TODO:
         $this->display();
     }   
     function avatar(){

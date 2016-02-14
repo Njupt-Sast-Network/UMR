@@ -20,7 +20,7 @@
                     <li><a href="{:U('user/profile/manage')}" ><i class="fa fa-desktop"></i> 总览</a></li>
                     <li class="active"><a href="#"><i class="fa fa-desktop"></i> 论文管理</a></li>
                     <li><a href="{:U('user/profile/manage_project')}"><i class="fa fa-desktop"></i> 项目管理</a></li>
-                    <li><a href="{:U('user/profile/manage_awards')}"><i class="fa fa-desktop"></i> 获奖管理</a></li>
+                    <li><a href="{:U('user/profile/manage_award')}"><i class="fa fa-desktop"></i> 获奖管理</a></li>
                     <li><a href="{:U('user/profile/manage_patent')}"><i class="fa fa-desktop"></i> 专利管理</a></li>
                 </ul>
                 <div class="tab-content">
@@ -45,7 +45,7 @@
                             <td>2015-12-12</td>
                             <td>1230</td>
                             <td>未审核</td>
-                            <td><a href="{:U('user/profile/edit_article')}">编辑</a> | <a class="js-ajax-dialog-btn" href="{:U('user/favorite/delete_favorite',array('id'=>$vo['id']))}" data-msg="您确定要删除吗？" data-ok="" data-cacel="取消">删除</a></td>
+                            <td><a href="{:U('user/profile/edit_paper')}">编辑</a> | <a class="js-ajax-dialog-btn" href="{:U('user/favorite/delete_favorite',array('id'=>$vo['id']))}" data-msg="您确定要删除吗？" data-ok="" data-cacel="取消">删除</a></td>
                           </tr>
                         <foreach name="favorites" item="vo">
                           <tr>
