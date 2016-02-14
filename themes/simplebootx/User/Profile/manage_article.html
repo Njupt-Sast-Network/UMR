@@ -17,48 +17,55 @@
         <div class="span9">
             <div class="tabs">
                 <ul class="nav nav-tabs">
-                    <li><a href="{:U('user/profile/manage')}" ><i class="fa fa-desktop"></i> 总览</a></li>
+                    <li><a href="{:U('user/profile/manage')}"><i class="fa fa-desktop"></i> 总览</a></li>
                     <li class="active"><a href="#"><i class="fa fa-desktop"></i> 论文管理</a></li>
                     <li><a href="{:U('user/profile/manage_project')}"><i class="fa fa-desktop"></i> 项目管理</a></li>
                     <li><a href="{:U('user/profile/manage_awards')}"><i class="fa fa-desktop"></i> 获奖管理</a></li>
                     <li><a href="{:U('user/profile/manage_patent')}"><i class="fa fa-desktop"></i> 专利管理</a></li>
                 </ul>
                 <div class="tab-content">
-                   <div class="tab-pane active" id="one">
+                    <div class="tab-pane active" id="one">
                         <table class="table table-bordered table-striped table-hover">
-                        <thead>
-                          <tr>
-                            <th style="display: none;">#</th>
-                            <th>论文/著作</th>
-                            <th>作者列表</th>
-                            <th>出版年月</th>
-                            <th>点击次数</th>
-                            <th>状态</th>
-                            <th>操作</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                        <tr>
-                            <td style="display: none;">{$vo.id}</td>
-                            <td><a href="{$vo.url}">存在的价值——读波伏瓦《人都是要死的》</a></td>
-                            <td>本报记者 孟明 通讯员 张国文 吴永生</td>
-                            <td>2015-12-12</td>
-                            <td>1230</td>
-                            <td>未审核</td>
-                            <td><a href="{:U('user/profile/edit_article')}">编辑</a> | <a class="js-ajax-dialog-btn" href="{:U('user/favorite/delete_favorite',array('id'=>$vo['id']))}" data-msg="您确定要删除吗？" data-ok="" data-cacel="取消">删除</a></td>
-                          </tr>
-                        <foreach name="favorites" item="vo">
-                          <tr>
-                            <td>{$vo.id}</td>
-                            <td>{$vo.title}</td>
-                            <td>{$vo.description}</td>
-                            <td><a href="{$vo.url}">查看</a> | <a class="js-ajax-dialog-btn" href="{:U('user/favorite/delete_favorite',array('id'=>$vo['id']))}" data-msg="您确定要取消收藏吗？" data-ok="" data-cacel="取消">取消收藏</a></td>
-                          </tr>
-                        </foreach>
-                        </tbody>
-                      </table>
-                   </div>
-               </div>
+                            <thead>
+                            <tr>
+                                <th style="display: none;">#</th>
+                                <th>论文/著作</th>
+                                <th>作者列表</th>
+                                <th>出版年月</th>
+                                <th>点击次数</th>
+                                <th>状态</th>
+                                <th>操作</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td style="display: none;">{$vo.id}</td>
+                                <td><a href="{$vo.url}">存在的价值——读波伏瓦《人都是要死的》</a></td>
+                                <td>本报记者 孟明 通讯员 张国文 吴永生</td>
+                                <td>2015-12-12</td>
+                                <td>1230</td>
+                                <td>未审核</td>
+                                <td><a href="{:U('user/profile/edit_article')}">编辑</a> | <a class="js-ajax-dialog-btn"
+                                                                                            href="{:U('user/favorite/delete_favorite',array('id'=>$vo['id']))}"
+                                                                                            data-msg="您确定要删除吗？"
+                                                                                            data-ok="" data-cacel="取消">删除</a>
+                                </td>
+                            </tr>
+                            <foreach name="favorites" item="vo">
+                                <tr>
+                                    <td>{$vo.id}</td>
+                                    <td>{$vo.title}</td>
+                                    <td>{$vo.description}</td>
+                                    <td><a href="{$vo.url}">查看</a> | <a class="js-ajax-dialog-btn"
+                                                                        href="{:U('user/favorite/delete_favorite',array('id'=>$vo['id']))}"
+                                                                        data-msg="您确定要取消收藏吗？" data-ok=""
+                                                                        data-cacel="取消">取消收藏</a></td>
+                                </tr>
+                            </foreach>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
