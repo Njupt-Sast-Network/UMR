@@ -2,18 +2,18 @@
 <html>
 <head>
     <title>{$site_name}</title>
-    <meta name="keywords" content="{$site_seo_keywords}"/>
+    <meta name="keywords" content="{$site_seo_keywords}" />
     <meta name="description" content="{$site_seo_description}">
     <meta name="author" content="ThinkCMF">
-    <tc_include file="Public:head"/>
+    <tc_include file="Public:head" />
 </head>
 <body class="body-white" id="top">
-<tc_include file="Public:nav"/>
+<tc_include file="Public:nav" />
 
 <div class="container tc-main">
     <div class="row">
         <div class="span3">
-            <tc_include file="Public:usernav"/>
+            <tc_include file="Public:usernav" />
         </div>
         <div class="span9">
             <div class="tabs">
@@ -24,38 +24,38 @@
                     <li><a href="{:U('user/profile/upload_patent')}"><i class="fa fa-pencil"></i> 上传专利</a></li>
                 </ul>
                 <div class="tab-content">
-                    <form action="{:U('AdminPage/add_post')}" method="post" class="form-horizontal js-ajax-forms"
+                    <form action="{:U('User/Profile/article_post')}" method="post" class="form-horizontal js-ajax-forms"
                           enctype="multipart/form-data">
-                        <input type="hidden" name="post[post_type]" value="2">
+                        <input type="hidden" name="post[post_type]" value="project">
                         <div class="row-fluid">
 
                             <table class="table table-bordered">
                                 <tr>
                                     <th width="80">项目名称</th>
                                     <td>
-                                        <input type="text" name="post[post_title]" id="title"
-                                               value="" placeholder="请输入项目名称"/>
+                                        <input type="text" name="post[title]" id="title"
+                                               value="" placeholder="请输入项目名称" />
                                         <span class="form-required">*</span>
                                     </td>
                                 </tr>
                                 <tr>
                                     <th width="80">类型</th>
                                     <td>
-                                        <input type="text" name="post[post_title]" id="title"
-                                               value="" placeholder="请输入类型"/>
+                                        <input type="text" name="post[type]" id="type"
+                                               value="" placeholder="请输入类型" />
                                         <span class="form-required">*</span>
                                     </td>
                                 </tr>
                                 <tr>
                                     <th width="80">项目级别</th>
                                     <td>
-                                        <select class="form-control" style="width:90px;">
-                                            <option>请选择</option>
-                                            <option>国家级</option>
-                                            <option>省部级</option>
-                                            <option>市厅级</option>
-                                            <option>校级</option>
-                                            <option>其它</option>
+                                        <select class="form-control" name="post[project_level]" required style="width:90px;">
+                                            <option value="" disabled selected>请选择</option>
+                                            <option value="1">国家级</option>
+                                            <option value="2">省部级</option>
+                                            <option value="3">市厅级</option>
+                                            <option value="4">校级</option>
+                                            <option value="5">其它</option>
                                         </select>
                                         <span class="form-required">*</span>
                                     </td>
@@ -63,7 +63,7 @@
                                 <tr>
                                     <th width="80">项目经费额度</th>
                                     <td>
-                                        <input type="number" value="50000" min="0" step="10000" style="width: 70px">元
+                                        <input type="number" name="post[fund]" value="50000" min="0" step="10000" style="width: 70px">元
                                         &nbsp;
 
                                         <span class="form-required">*</span>
@@ -73,21 +73,22 @@
                                 <tr>
                                     <th width="80">证明材料</th>
                                     <td>
-                                        <script type="text/plain" id="content" name="post[post_content]"></script>
+                                        <script type="text/plain" id="content" name="post[provement]"></script>
                                     </td>
                                 </tr>
                             </table>
                             <button class="btn btn-primary js-ajax-submit" type="submit">上传</button>
+                        </div>
                     </form>
                 </div>
             </div>
         </div>
 
-        <tc_include file="Public:footer"/>
+        <tc_include file="Public:footer" />
 
     </div>
     <!-- /container -->
 
-    <tc_include file="Public:scripts"/>
+    <tc_include file="Public:scripts" />
 </body>
 </html>
