@@ -33,7 +33,7 @@
                                     <th width="80">论文/著作</th>
                                     <td>
                                         <input type="text" name="post[title]" id="title"
-                                               value="" placeholder="请输入论文/著作标题" />
+                                               value="" placeholder="请输入论文/著作标题" required/>
                                         <span class="form-required">*</span>
                                     </td>
                                 </tr>
@@ -41,7 +41,7 @@
                                     <th width="80">期刊/出版社</th>
                                     <td>
                                         <input type="text" name="post[press]" id="title"
-                                               value="" placeholder="请输入期刊/出版社" />
+                                               value="" placeholder="请输入期刊/出版社" required/>
                                         <span class="form-required">*</span>
                                     </td>
                                 </tr>
@@ -50,7 +50,7 @@
                                     <td>
                                         <input class="js-date" type="text" id="input-publicdate"
                                                placeholder="2016-01-01" name="post[publish_date]" value="{$publicdate}"
-                                               style="width:90px">
+                                               required style="width:90px">
                                         <span class="form-required">*</span>
                                     </td>
                                 </tr>
@@ -58,7 +58,7 @@
                                     <th width="80">卷号页码等信息</th>
                                     <td>
                                         <input type="text" name="post[volume_info]" id="title"
-                                               value="" placeholder="请输入卷号页码等信息" />
+                                               value="" placeholder="请输入卷号页码等信息" required/>
                                         <span class="form-required">*</span>
                                     </td>
                                 </tr>
@@ -66,14 +66,14 @@
                                     <th width="80">作者列表</th>
                                     <td>
                                         <input type="text" name="post[author_list]" id="title"
-                                               value="" placeholder="请输入作者列表" />
+                                               value="" placeholder="请输入作者列表" required/>
                                         <span class="form-required">*</span>
                                     </td>
                                 </tr>
                                 <tr>
                                     <th width="80">本人贡献度</th>
                                     <td>
-                                        <input type="number" name="post[contribute]" value="" min="1" max="100" style="width: 50px">%
+                                        <input type="number" name="post[contribute]" value="" min="1" max="100" required style="width: 50px">%
                                         &nbsp;
 
                                         <span class="form-required">*</span>
