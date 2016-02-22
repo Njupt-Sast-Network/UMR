@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 	<html>
 	<head>
-		<title>{$post_title} {$site_name} </title>
+		<title>{$post_title} | {$site_name} </title>
 		<meta name="keywords" content="{$post_keywords}" />
 		<meta name="description" content="{$post_excerpt}">
 		<tc_include file="Public:head" />
@@ -43,7 +43,7 @@
 					<a href="{:leuu('article/index',array('id'=>$prev['tid'],'cid'=>$prev['term_id']))}" class="btn btn-primary pull-left">上一篇</a>
 					</if>
 					<if condition="!empty($next)">
-					<a href="{:leuu('article/index',array('id'=>$next['tid'],'cid'=>$next['term_id']))}" class="btn btn-warning pull-right">下一篇</a>
+					<a href="{:leuu('article/index',array('id'=>$next['tid'],'cid'=>$next['term_id']))}" class="btn btn-info pull-right">下一篇</a>
 					</if>
     	            <script type="text/javascript" src="__TMPL__Public/js/qrcode.min.js"></script>
                     <div id="qrcode" style="width: 100px;margin:0 auto"></div>
