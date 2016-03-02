@@ -18,44 +18,46 @@
         <div class="span9">
             <div class="tabs">
                 <ul class="nav nav-tabs">
-                    <li><a href="{:U('user/profile/upload_paper')}"><i class="fa fa-pencil"></i> 上传论文</a></li>
-                    <li class="active"><a><i class="fa fa-pencil"></i> 上传项目</a></li>
-                    <li><a href="{:U('user/profile/upload_award')}"><i class="fa fa-pencil"></i> 上传获奖</a></li>
-                    <li><a href="{:U('user/profile/upload_patent')}"><i class="fa fa-pencil"></i> 上传专利</a></li>
+                    <li><a href="{:U('user/profile/manage')}"><i class="fa fa-desktop"></i> 总览</a></li>
+                    <li><a href="{:U('user/profile/manage_paper')}"><i class="fa fa-desktop"></i> 论文管理</a></li>
+                    <li><a href="{:U('user/profile/manage_project')}"><i class="fa fa-desktop"></i> 项目管理</a></li>
+                    <li><a href="{:U('user/profile/manage_award')}"><i class="fa fa-desktop"></i> 获奖管理</a></li>
+                    <li><a href="{:U('user/profile/manage_patent')}"><i class="fa fa-desktop"></i> 专利管理</a></li>
                 </ul>
                 <div class="tab-content">
-                    <form action="{:U('AdminPage/add_post')}" method="post" class="form-horizontal js-ajax-forms"
+                    <form action="{:U('User/Profile/content_update')}" method="post" class="form-horizontal js-ajax-forms"
                           enctype="multipart/form-data">
-                        <input type="hidden" name="post[post_type]" value="2">
+                        <input type="hidden" name="id" value="{$post.id}">
+                        <input type="hidden" name="post[post_type]" value="project">
                         <div class="row-fluid">
 
                             <table class="table table-bordered">
                                 <tr>
                                     <th width="80">项目名称</th>
                                     <td>
-                                        <input type="text" name="post[post_title]" id="title"
-                                               value="" placeholder="请输入项目名称"/>
+                                        <input type="text" name="post[title]"
+                                               value="{$post.title}" placeholder="请输入项目名称"/>
                                         <span class="form-required">*</span>
                                     </td>
                                 </tr>
                                 <tr>
                                     <th width="80">类型</th>
                                     <td>
-                                        <input type="text" name="post[post_title]" id="title"
-                                               value="" placeholder="请输入类型"/>
+                                        <input type="text" name="post[type]" id="title"
+                                               value="{$post.type}" placeholder="请输入类型"/>
                                         <span class="form-required">*</span>
                                     </td>
                                 </tr>
                                 <tr>
                                     <th width="80">项目级别</th>
                                     <td>
-                                        <select class="form-control" style="width:90px;">
-                                            <option>请选择</option>
-                                            <option>国家级</option>
-                                            <option>省部级</option>
-                                            <option>市厅级</option>
-                                            <option>校级</option>
-                                            <option>其它</option>
+                                        <select class="form-control" name="post[project_level]" style="width:90px;">
+                                            <option value="" disabled >请选择</option>
+                                            <option value="1" <?php echo $post['type']==1?'selected':''?> >国家级</option>
+                                            <option value="2" <?php echo $post['type']==2?'selected':''?> >省部级</option>
+                                            <option value="3" <?php echo $post['type']==3?'selected':''?> >市厅级</option>
+                                            <option value="4" <?php echo $post['type']==4?'selected':''?> >校级</option>
+                                            <option value="5" <?php echo $post['type']==5?'selected':''?> >其它</option>
                                         </select>
                                         <span class="form-required">*</span>
                                     </td>
@@ -63,7 +65,7 @@
                                 <tr>
                                     <th width="80">项目经费额度</th>
                                     <td>
-                                        <input type="number" value="50000" min="0" step="10000" style="width: 70px">元
+                                        <input type="number" name="post[fund]" value="{$post.fund}" min="0" step="10000" style="width: 70px">元
                                         &nbsp;
 
                                         <span class="form-required">*</span>
@@ -73,7 +75,7 @@
                                 <tr>
                                     <th width="80">证明材料</th>
                                     <td>
-                                        <script type="text/plain" id="content" name="post[post_content]"></script>
+                                        <script type="text/plain" id="content" name="post[provement]">{$post.provement}</script>
                                     </td>
                                 </tr>
                             </table>

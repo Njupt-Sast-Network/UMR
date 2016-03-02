@@ -45,10 +45,12 @@
                                 <td>市部级</td>
                                 <td>1230</td>
                                 <td>未审核</td>
-                                <td><a href="{:U('user/profile/edit_article')}">编辑</a> | <a class="js-ajax-dialog-btn"
-                                                                                            href="{:U('user/favorite/delete_favorite',array('id'=>$vo['id']))}"
-                                                                                            data-msg="您确定要删除吗？"
-                                                                                            data-ok="" data-cacel="取消">删除</a>
+                                <td><a href="{:U('user/profile/edit_award')}&id=1">编辑</a> |
+                                    <a class="js-ajax-dialog-btn"
+                                       href="{:U('user/favorite/delete_favorite',array('id'=>$vo['id']))}"
+                                       data-msg="您确定要删除吗？"
+                                       data-ok="" data-cacel="取消">删除</a>
+                                    <!--DEV-->
                                 </td>
                             </tr>
                             <foreach name="favorites" item="vo">

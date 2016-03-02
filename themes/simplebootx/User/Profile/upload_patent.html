@@ -24,7 +24,7 @@
                     <li class="active"><a data-toggle="tab"><i class="fa fa-pencil"></i> 上传专利</a></li>
                 </ul>
                 <div class="tab-content">
-                    <form action="{:U('User/Profile/article_post')}" method="post" class="form-horizontal js-ajax-forms"
+                    <form action="{:U('User/Profile/content_post')}" method="post" class="form-horizontal js-ajax-forms"
                           enctype="multipart/form-data">
                         <input type="hidden" name="post[post_type]" value="patent">
                         <div class="row-fluid">
@@ -40,7 +40,7 @@
                                 <tr>
                                     <th width="80">发明人</th>
                                     <td>
-                                        <input type="text" name="post[inventer]" id="title"
+                                        <input type="text" name="post[inventor]" id="title"
                                                value="" placeholder="请输入发明人" required/>
                                         <span class="form-required">*</span>
                                     </td>

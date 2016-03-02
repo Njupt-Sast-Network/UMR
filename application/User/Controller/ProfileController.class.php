@@ -26,6 +26,9 @@ class ProfileController extends MemberbaseController {
         $this->display();
     }
 
+    /**
+     *修改用户信息
+     */
     public function edit_post()
     {
         if (IS_POST) {
@@ -36,12 +39,10 @@ class ProfileController extends MemberbaseController {
                     $user = $this->users_model->find($userid);
                     sp_update_current_user($user);
                     $this->success("保存成功！", U("user/profile/edit"));
-                }
-                else {
+                } else {
                     $this->error("保存失败！");
                 }
-            }
-            else {
+            } else {
                 $this->error($this->users_model->getError());
             }
         }
@@ -53,35 +54,27 @@ class ProfileController extends MemberbaseController {
         $this->display();
     }
 
-
-
-
-
     public function upload_paper()
     {
-        //TODO:
         $this->display();
     }
 
     public function upload_project()
     {
-        //TODO:
         $this->display();
     }
 
     public function upload_award()
     {
-        //TODO:
         $this->display();
     }
 
     public function upload_patent()
     {
-        //TODO:
         $this->display();
     }
 
-    public function article_post()
+    public function content_post()
     {
         if (IS_POST) {
             if ( !in_array(I('post.post')['post_type'], [ 'paper', 'project', 'award', 'patent' ])) {
@@ -99,8 +92,76 @@ class ProfileController extends MemberbaseController {
             $result = $dbContent->add($article);
             if ($result) {
                 $this->success("添加成功！");
+            } else {
+                $this->ajaxReturn($dbContent->getLastSql()); //DEV
+                //$this->error("添加失败！");
             }
-            else {
+
+        }
+    }
+
+    public function edit_award()
+    {
+        $this->edit_content('award');
+    }
+
+    public function edit_paper()
+    {
+        $this->edit_content('paper');
+    }
+
+    public function edit_patent()
+    {
+        $this->edit_content('patent');
+    }
+
+    public function edit_project()
+    {
+        $this->edit_content('project');
+    }
+
+    private function edit_content($type)
+    {
+        if ( !isset($_GET['id'])) {
+            $this->error("缺少参数");
+        }
+        if ( !in_array($type, [ 'paper', 'project', 'award', 'patent' ])) {
+            $this->error('post类型不正确');
+        }
+        $dbContent = M('content_' . $type);
+        $where['post_author'] = sp_get_current_userid();
+        $where['id'] = intval($_GET['id']);
+        $post = $dbContent->where($where)->find();
+        $this->assign("post", $post);
+        $this->display();
+    }
+
+    public function content_update()
+    {
+        if (IS_POST) {
+            if ( !in_array(I('post.post')['post_type'], [ 'paper', 'project', 'award', 'patent' ])) {
+                $this->error('post类型不正确');
+            }
+            if ( !isset($_POST['id'])) {
+                $this->error("缺少参数");
+            } else {
+                $where['id'] = intval($_POST['id']);
+            }
+            $dbContent = M('content_' . I('post.post')['post_type']);
+            $_POST['smeta']['thumb'] = sp_asset_relative_url($_POST['smeta']['thumb']);
+
+            //$_POST['post']['post_date'] = date("Y-m-d H:i:s", time());
+            //提交时间(包括修改时间)交由数据库的特性处理
+
+            $where['post_author'] = sp_get_current_userid();
+            $article = I("post.post");
+            $article['smeta'] = json_encode($_POST['smeta']);
+            $article['provement'] = htmlspecialchars_decode($article['provement']);
+            $article['status'] = 0;
+            $result = $dbContent->where($where)->save($article);
+            if ($result !== false) {
+                $this->success("更新成功！");
+            } else {
                 $this->ajaxReturn($dbContent->getLastSql()); //DEV
                 //$this->error("添加失败！");
             }
@@ -167,8 +228,7 @@ class ProfileController extends MemberbaseController {
             $file = $first['savename'];
             $_SESSION['avatar'] = $file;
             $this->ajaxReturn(sp_ajax_return(array( "file" => $file ), "上传成功！", 1), "AJAX_UPLOAD");
-        }
-        else {
+        } else {
             //上传失败，返回错误
             $this->ajaxReturn(sp_ajax_return(array(), $upload->getError(), 0), "AJAX_UPLOAD");
         }
@@ -188,8 +248,7 @@ class ProfileController extends MemberbaseController {
             if (sp_is_sae()) {
                 //TODO 其它存储类型暂不考虑
                 $src = C("TMPL_PARSE_STRING.__UPLOAD__") . "avatar/$avatar";
-            }
-            else {
+            } else {
                 $src = $avatar_dir . $avatar;
             }
 
@@ -208,8 +267,7 @@ class ProfileController extends MemberbaseController {
                 $img->crop($lx, $rx, $ty, $by);
                 $img_content = $img->exec('png');
                 sp_file_write($avatar_dir . $avatar, $img_content);
-            }
-            else {
+            } else {
                 $image = new \Think\Image();
                 $image->open($src);
                 $image->crop($targ_w, $targ_h, $x, $y);
@@ -221,8 +279,7 @@ class ProfileController extends MemberbaseController {
             $_SESSION['user']['avatar'] = $avatar;
             if ($result) {
                 $this->success("头像更新成功！");
-            }
-            else {
+            } else {
                 $this->error("头像更新失败！");
             }
 
