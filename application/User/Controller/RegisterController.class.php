@@ -66,16 +66,16 @@ class RegisterController extends HomebaseController {
 	    }else{
 
 	        $data=array(
-	            'user_login' => '',
-	            'user_email' => '',
-	            'mobile' =>$_POST['mobile'],
-	            'user_nicename' =>'',
-	            'user_pass' => sp_password($password),
-	            'last_login_ip' => get_client_ip(0,true),
-	            'create_time' => date("Y-m-d H:i:s"),
-	            'last_login_time' => date("Y-m-d H:i:s"),
-	            'user_status' => 1,
-	            "user_type"=>2,//会员
+				'user_login'      => '',
+				'user_email'      => '',
+				'mobile'          =>$_POST['mobile'],
+				'user_name'       => '',
+				'user_pass'       => sp_password($password),
+				'last_login_ip'   => get_client_ip(0,true),
+				'create_time'     => date("Y-m-d H:i:s"),
+				'last_login_time' => date("Y-m-d H:i:s"),
+				'user_status'     => 1,
+				"user_type"       =>2,//会员
 	        );
 	        $rst = $users_model->add($data);
 	        if($rst){
@@ -163,15 +163,15 @@ class RegisterController extends HomebaseController {
 	        if($uc_register){
 	            $need_email_active=C("SP_MEMBER_EMAIL_ACTIVE");
 	            $data=array(
-	                'user_login' => $username,
-	                'user_email' => $email,
-	                'user_nicename' =>$username,
-	                'user_pass' => sp_password($password),
-	                'last_login_ip' => get_client_ip(0,true),
-	                'create_time' => date("Y-m-d H:i:s"),
-	                'last_login_time' => date("Y-m-d H:i:s"),
-	                'user_status' => $need_email_active?2:1,
-	                "user_type"=>2,//会员
+					'user_login'      => $username,
+					'user_email'      => $email,
+					'user_name'       => $username,
+					'user_pass'       => sp_password($password),
+					'last_login_ip'   => get_client_ip(0,true),
+					'create_time'     => date("Y-m-d H:i:s"),
+					'last_login_time' => date("Y-m-d H:i:s"),
+					'user_status'     => $need_email_active?2:1,
+					"user_type"       =>2,//会员
 	            );
 	            $rst = $users_model->add($data);
 	            if($rst){

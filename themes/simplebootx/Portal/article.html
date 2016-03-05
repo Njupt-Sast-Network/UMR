@@ -20,7 +20,7 @@
 			<div class="tc-box first-box article-box">
 		    	<h2>{$post_title}</h2>
 		    	<div class="article-infobox">
-		    		<span>{$post_date} by {$user_nicename|default=$user_login}</span>
+		    		<span>{$post_date} by {$user_name|default=$user_login}</span>
 		    		<span>
 		    			<a href="javascript:;"><i class="fa fa-eye"></i><span>{$post_hits}</span></a>
 						<a href="{:U('article/do_like',array('id'=>$object_id))}" class="js-count-btn"><i class="fa fa-thumbs-up"></i><span class="count">{$post_like}</span></a>

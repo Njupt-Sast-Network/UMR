@@ -46,11 +46,11 @@ class CommentController extends MemberbaseController{
 				$uid=$_SESSION["user"]['id'];
 				$_POST['uid']=$uid;
 				$users_model=M('Users');
-				$user=$users_model->field("user_login,user_email,user_nicename")->where("id=$uid")->find();
+				$user=$users_model->field("user_login,user_email,user_name")->where("id=$uid")->find();
 				$username=$user['user_login'];
-				$user_nicename=$user['user_nicename'];
+				$user_name=$user['user_name'];
 				$email=$user['user_email'];
-				$_POST['full_name']=empty($user_nicename)?$username:$user_nicename;
+				$_POST['full_name']=empty($user_name)?$username:$user_name;
 				$_POST['email']=$email;
 			}
 			

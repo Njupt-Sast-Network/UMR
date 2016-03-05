@@ -482,7 +482,7 @@ CREATE TABLE `cmf_users` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `user_login` varchar(60) NOT NULL DEFAULT '' COMMENT '用户名',
   `user_pass` varchar(64) NOT NULL DEFAULT '' COMMENT '登录密码；sp_password加密',
-  `user_nicename` varchar(50) NOT NULL DEFAULT '' COMMENT '用户美名',
+  `user_name` varchar(50) NOT NULL DEFAULT '' COMMENT '用户美名',
   `user_email` varchar(100) NOT NULL DEFAULT '' COMMENT '登录邮箱',
   `user_url` varchar(100) NOT NULL DEFAULT '' COMMENT '用户个人网站',
   `avatar` varchar(255) DEFAULT NULL COMMENT '用户头像，相对于upload/avatar目录',
@@ -500,7 +500,7 @@ CREATE TABLE `cmf_users` (
   `mobile` varchar(20) NOT NULL DEFAULT '' COMMENT '手机号',
   PRIMARY KEY (`id`),
   KEY `user_login_key` (`user_login`),
-  KEY `user_nicename` (`user_nicename`)
+  KEY `user_name` (`user_name`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COMMENT='用户表' AUTO_INCREMENT=1 ;
 
 

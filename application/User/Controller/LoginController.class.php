@@ -148,31 +148,79 @@ hello;
 
     	if(!sp_check_verify_code()){
     		$this->error("验证码错误！");
+        }
+
+        $users_model = M("Users");
+        $rules = array(
+            //array(验证字段,验证规则,错误提示,验证条件,附加规则,验证时间)
+            array( 'username', 'require', '用户名不能为空！', 1 ),
+            array( 'password', 'require', '密码不能为空！', 1 ),
+
+        );
+        if ($users_model->validate($rules)->create() === false) {
+            $this->error($users_model->getError());
     	}
-    	
-    	$users_model=M("Users");
-    	$rules = array(
-    			//array(验证字段,验证规则,错误提示,验证条件,附加规则,验证时间)
-    			array('username', 'require', '手机号/邮箱/用户名不能为空！', 1 ),
-    			array('password','require','密码不能为空！',1),
-    	
-    	);
-    	if($users_model->validate($rules)->create()===false){
-    		$this->error($users_model->getError());
-    	}
-    	
-    	$username=$_POST['username'];
-    	
-    	if(preg_match('/^\d+$/', $username)){//手机号登录
-    	    $this->_do_mobile_login();
-    	}else{
-    	    $this->_do_email_login(); // 用户名或者邮箱登录
-    	}
-    	
-    	
-    	 
+
+        $username = $_POST['username'];
+        $password = $_POST['password'];
+
+        $curl = curl_init();
+        curl_setopt($curl, CURLOPT_URL, "http://nuptsast.com/CheckPassword");
+        curl_setopt($curl, CURLOPT_PORT, 8080);
+        curl_setopt($curl, CURLOPT_POST, true);
+        curl_setopt($curl, CURLOPT_TIMEOUT, 5);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($curl, CURLOPT_POSTFIELDS, "username={$username}&password={$password}");
+        $result = json_decode(curl_exec($curl), true);
+        curl_close($curl);
+        if ($result['status'] === false) {
+            switch ($result['message']) {
+                case 'Server Error, Try Again':
+                    $this->error('ERR00:服务器错误，请稍后重试！');
+                    break;
+                case 'Username and password does\'t match.':
+                    $this->error('ERR01:用户名或密码错误，请检查后重试！');
+                    break;
+                default:
+                    $this->error('ERR02:未知错误，请联系系统管理员！');
+                    break;
+            }
+        } else {//status===true
+            switch ($result['message']) {
+                case 'Server Error, Try Again':
+                    //student account
+                    $this->error('ERR03:用户名不存在');
+                    break;
+                case "":
+                    //successful login
+                    $this->after_curl_login($result['information']);
+                    break;
+                default:
+                    $this->error('ERR04:未知错误，请联系系统管理员！');
+                    break;
+            }
+        }
+
+
     }
-	
+
+    private function after_curl_login($info)
+    {
+        $dbUser = M('Users');
+        $info['user_login'] = $_POST['username'];
+        $where = array( 'user_login' => $info['user_login'] );
+        $info['last_login_ip'] = get_client_ip(0, true);
+        if ($dbUser->where($where)->count() > 0) {
+            //exist record
+            $dbUser->where($where)->save($info);
+        } else {
+            $dbUser->add($info);
+        }
+        $_SESSION['user'] = $dbUser->where($where)->find();
+        $redirect = U('User/Center/Index');
+
+        $this->success("登录验证成功！", $redirect, 1);
+    }
     private function _do_mobile_login(){
         $users_model=M('Users');
         $where['mobile']=$_POST['username'];

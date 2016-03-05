@@ -34,7 +34,7 @@ class ProfileController extends MemberbaseController {
         if (IS_POST) {
             $userid = sp_get_current_userid();
             $_POST['id'] = $userid;
-            if ($this->users_model->field('id,user_nicename,sex,birthday,user_url,signature')->create()) {
+            if ($this->users_model->field('id,user_name,sex,birthday,user_url,signature')->create()) {
                 if ($this->users_model->save() !== false) {
                     $user = $this->users_model->find($userid);
                     sp_update_current_user($user);

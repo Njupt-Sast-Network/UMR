@@ -112,7 +112,7 @@ function sp_create_admin_account($db,$table_prefix,$authcode){
     $ip=get_client_ip(0,true);
     $sql =<<<hello
     INSERT INTO `{$table_prefix}users` 
-    (id,user_login,user_pass,user_nicename,user_email,user_url,create_time,user_activation_key,user_status,last_login_ip,last_login_time) VALUES 
+    (id,user_login,user_pass,user_name,user_email,user_url,create_time,user_activation_key,user_status,last_login_ip,last_login_time) VALUES
     ('1', '{$username}', '{$password}', 'admin', '{$email}', '', '{$create_date}', '', '1', '{$ip}','{$create_date}');;
 hello;
     $db->execute($sql);
