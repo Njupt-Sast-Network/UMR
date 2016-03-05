@@ -105,21 +105,6 @@ class ProfileController extends MemberbaseController {
         $this->edit_content('award');
     }
 
-    public function edit_paper()
-    {
-        $this->edit_content('paper');
-    }
-
-    public function edit_patent()
-    {
-        $this->edit_content('patent');
-    }
-
-    public function edit_project()
-    {
-        $this->edit_content('project');
-    }
-
     private function edit_content($type)
     {
         if ( !isset($_GET['id'])) {
@@ -134,6 +119,21 @@ class ProfileController extends MemberbaseController {
         $post = $dbContent->where($where)->find();
         $this->assign("post", $post);
         $this->display();
+    }
+
+    public function edit_paper()
+    {
+        $this->edit_content('paper');
+    }
+
+    public function edit_patent()
+    {
+        $this->edit_content('patent');
+    }
+
+    public function edit_project()
+    {
+        $this->edit_content('project');
     }
 
     public function content_update()
@@ -177,26 +177,137 @@ class ProfileController extends MemberbaseController {
 
     public function manage_paper()
     {
-        //TODO:
+        $db = M('content_paper');
+        $userid = sp_get_current_userid();
+        $paper = $db->where('post_author= ' . $userid)->order('post_modified desc')->select();
+        $this->assign('paper', $paper);
         $this->display();
     }
 
     public function manage_project()
     {
-        //TODO:
+        $db = M('content_project');
+        $userid = sp_get_current_userid();
+        $project = $db->where('post_author= ' . $userid)->order('post_modified desc')->select();
+
+        foreach($project as &$i) {
+
+            switch ($i['project_level']) {
+                case 1:
+                    $i['project_level'] = '国家级';
+                    break;
+                case 2:
+                    $i['project_level'] = '省部级';
+                    break;
+                case 3:
+                    $i['project_level'] = '市厅级';
+                    break;
+                case 4:
+                    $i['project_level'] = '校级';
+                    break;
+                case 5:
+                    $i['project_level'] = '其他';
+                    break;
+            }
+
+        }
+        $this->assign('project', $project);
         $this->display();
     }
 
     public function manage_award()
     {
-        //TODO:
+        $db = M('content_award');
+        $userid = sp_get_current_userid();
+        $award = $db->where('post_author= ' . $userid)->order('post_modified desc')->select();
+
+        foreach($award as &$i) {
+
+            switch ($i['award_level']) {
+                case 1:
+                    $i['award_level'] = '国家级';
+                    break;
+                case 2:
+                    $i['award_level'] = '省部级';
+                    break;
+                case 3:
+                    $i['award_level'] = '市厅级';
+                    break;
+                case 4:
+                    $i['award_level'] = '校级';
+                    break;
+                case 5:
+                    $i['award_level'] = '其他';
+                    break;
+            }
+
+        }
+        $this->assign('award', $award);
         $this->display();
     }
 
     public function manage_patent()
     {
-        //TODO:
+        $db = M('content_patent');
+        $userid = sp_get_current_userid();
+        $patent = $db->where('post_author= ' . $userid)->order('post_modified desc')->select();
+
+        foreach($patent as &$i) {
+
+            switch ($i['type']) {
+                case 1:
+                    $i['type'] = '发明';
+                    break;
+                case 2:
+                    $i['type'] = '实用新型';
+                    break;
+                case 3:
+                    $i['type'] = '外观设计';
+                    break;
+                case 4:
+                    $i['type'] = '其他';
+                    break;
+            }
+
+        }
+        $this->assign('patent', $patent);
         $this->display();
+    }
+
+    private function delete_content($type)
+    {
+        $dbContent = M("content_" . $type);
+        $userid = sp_get_current_userid();
+        $map['post_author'] = $userid;
+        $map['id'] = $_GET['id'];
+        $result = $dbContent->where($map)->delete();
+        if ($result) {
+            $this->success("删除成功！");
+        } else {
+            $this->error("删除失败！");
+        }
+
+    }
+
+    public function delete_paper()
+    {
+        $this->delete_content('paper');
+    }
+
+
+    public function delete_project()
+    {
+        $this->delete_content('project');
+    }
+
+    public function delete_award()
+    {
+        $this->delete_content('award');
+    }
+
+    public function delete_patent()
+    {
+        $this->delete_content('patent');
     }
 
     public function avatar()

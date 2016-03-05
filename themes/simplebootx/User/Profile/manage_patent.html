@@ -38,28 +38,22 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr>
-                                <td style="display: none;">{$vo.id}</td>
-                                <td><a href="{$vo.url}">存在的价值——读波伏瓦《人都是要死的》</a></td>
-                                <td>某某某</td>
-                                <td>实用发明</td>
-                                <td>1230</td>
-                                <td>未审核</td>
-                                <td><a href="{:U('user/profile/edit_article')}">编辑</a> | <a class="js-ajax-dialog-btn"
-                                                                                            href="{:U('user/favorite/delete_favorite',array('id'=>$vo['id']))}"
-                                                                                            data-msg="您确定要删除吗？"
-                                                                                            data-ok="" data-cacel="取消">删除</a>
-                                </td>
-                            </tr>
-                            <foreach name="favorites" item="vo">
+
+                            <foreach name="patent" item="vo">
                                 <tr>
-                                    <td>{$vo.id}</td>
+                                    <td style="display: none;">{$vo.id}</td>
                                     <td>{$vo.title}</td>
-                                    <td>{$vo.description}</td>
-                                    <td><a href="{$vo.url}">查看</a> | <a class="js-ajax-dialog-btn"
-                                                                        href="{:U('user/favorite/delete_favorite',array('id'=>$vo['id']))}"
-                                                                        data-msg="您确定要取消收藏吗？" data-ok=""
-                                                                        data-cacel="取消">取消收藏</a></td>
+                                    <td>{$vo.inventor}</td>
+                                    <td>{$vo.type}</td>
+                                    <td>{$vo.post_hits}</td>
+                                    <td>
+                                        <php>echo $vo['status'] == 0?'未审核':'已审核'</php>
+                                    </td>
+                                    <td><a href="{:U('user/Profile/edit_patent',array('id'=>$vo['id']))}">编辑</a> |
+                                        <a class="js-ajax-dialog-btn"
+                                           href="{:U('user/Profile/delete_patent',array('id'=>$vo['id']))}"
+                                           data-msg="您确定要删除吗？"
+                                           data-ok="" data-cacel="取消">删除</a></td>
                                 </tr>
                             </foreach>
                             </tbody>
