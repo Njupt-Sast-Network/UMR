@@ -25,15 +25,11 @@
 				<thead>
 					<tr>
 						<th width="15"><label><input type="checkbox" class="js-check-all" data-direction="x" data-checklist="js-check-x"></label></th>
-						<th width="50">ID</th>
+						<th width="50">UUID</th>
 						<th>标题</th>
-						<th>栏目</th>
+						<th>分类</th>
 						<th width="50">点击量</th>
 						<th width="50">评论量</th>
-						<th width="50">关键字</th>
-						<th width="50">来源</th>
-						<th width="50">摘要</th>
-						<th width="50">缩略图</th>
 						<th width="80">发布人</th>
 						<th width="70">发布时间</th>
 						<th width="50">{:L('STATUS')}</th>
@@ -42,48 +38,32 @@
 				</thead>
 				<php>
 				$status=array("1"=>"已审核","0"=>"未审核");
-				$top_status=array("1"=>"已置顶","0"=>"未置顶");
-				$recommend_status=array("1"=>"已推荐","0"=>"未推荐");
 				</php>
 				<foreach name="posts" item="vo">
 				<tr>
 					<td><input type="checkbox" class="js-check" data-yid="js-check-y" data-xid="js-check-x" name="ids[{$vo.tid}]" value="{$vo.id}"></td>
-					<td><a>{$vo.tid}</a></td>
+					<td><a>{$vo.id}</a></td>
 					<td><a>{$vo.post_title}</a></td>
 					<td>{$terms[$vo['term_id']]}</td>
 					<td>{$vo.post_hits}</td>
 					<td>{$vo.comment_count}</td>
-					<td>{$excerpt_keywords = empty($vo['post_keywords'])?"":'已填写'}</td>
-					<td>{$excerpt_source = empty($vo['post_source'])?" ":'已填写'}</td>
-					<td>{$excerpt_excerpt = empty($vo['post_excerpt'])?" ":'已填写'}</td>
-					<td>
-					<php>$smeta=json_decode($vo['smeta'],true);</php>
-					<if condition="!empty($smeta['thumb'])">
-						<a href="{:sp_get_asset_upload_path($smeta['thumb'])}" target='_blank'>查看</a>
-					</if>
-					</td>
 					<td>{$users[$vo['post_author']]['user_login']}</td>
 					<td>{$vo.post_date}</td>
-					<td>{$status[$vo['post_status']]}<br>{$top_status[$vo['istop']]}<br>{$recommend_status[$vo['recommended']]}
-					</td>
+					<td>{$status[$vo['post_status']]}</td>
 					<td>
-						<a href="{:U('AdminPost/restore',array('term'=>empty($term['term_id'])?'':$term['term_id'],'id'=>$vo['tid']))}" class="js-ajax-dialog-btn" data-msg="确定还原吗？">还原</a>| 
-						<a href="{:U('AdminPost/clean',array('term'=>empty($term['term_id'])?'':$term['term_id'],'tid'=>$vo['tid'],'id'=>$vo['id']))}" class="js-ajax-delete">删除</a>
+						<a href="{:U('AdminPost/restore',array('id'=>$vo['id']))}" class="js-ajax-dialog-btn" data-msg="确定还原吗？">还原</a>|
+						<a href="{:U('AdminPost/clean',array('id'=>$vo['id']))}" class="js-ajax-delete">删除</a>
 					</td>
 				</tr>
 				</foreach>
 				<tfoot>
 					<tr>
 						<th width="15"><label><input type="checkbox" class="js-check-all" data-direction="x" data-checklist="js-check-x"></label></th>
-						<th width="50">ID</th>
+						<th width="50">UUID</th>
 						<th>标题</th>
 						<th>栏目</th>
 						<th width="50">点击量</th>
 						<th width="50">评论量</th>
-						<th width="50">关键字</th>
-						<th width="50">来源</th>
-						<th width="50">摘要</th>
-						<th width="50">缩略图</th>
 						<th width="80">发布人</th>
 						<th width="70">发布时间</th>
 						<th width="50">{:L('STATUS')}</th>

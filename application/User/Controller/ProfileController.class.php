@@ -10,11 +10,14 @@ use Common\Controller\MemberbaseController;
 class ProfileController extends MemberbaseController {
 
     protected $users_model;
+    protected $term_relationships_model;
+
 
     public function _initialize()
     {
         parent::_initialize();
         $this->users_model = D("Common/Users");
+        $this->term_relationships_model = D("Portal/TermRelationships");
     }
 
     //编辑用户资料
@@ -80,6 +83,21 @@ class ProfileController extends MemberbaseController {
             if ( !in_array(I('post.post')['post_type'], [ 'paper', 'project', 'award', 'patent' ])) {
                 $this->error('post类型不正确');
             }
+            switch (I('post.post')['post_type']) {
+                case 'paper':
+                    $term_id = 2;
+                    break;
+                case 'project':
+                    $term_id = 3;
+                    break;
+                case 'award':
+                    $term_id = 4;
+                    break;
+                case 'patent':
+                    $term_id = 5;
+                    break;
+
+            }
             $dbContent = M('content_' . I('post.post')['post_type']);
             $_POST['smeta']['thumb'] = sp_asset_relative_url($_POST['smeta']['thumb']);
 
@@ -89,12 +107,13 @@ class ProfileController extends MemberbaseController {
             $article = I("post.post");
             $article['smeta'] = json_encode($_POST['smeta']);
             $article['provement'] = htmlspecialchars_decode($article['provement']);
+            $article['id'] = uuid();
             $result = $dbContent->add($article);
             if ($result) {
+                $this->term_relationships_model->add(array( "term_id" => $term_id, "object_id" => $article['id'] ));
                 $this->success("添加成功！");
             } else {
-                $this->ajaxReturn($dbContent->getLastSql()); //DEV
-                //$this->error("添加失败！");
+                $this->error("添加失败！");
             }
 
         }
@@ -115,7 +134,7 @@ class ProfileController extends MemberbaseController {
         }
         $dbContent = M('content_' . $type);
         $where['post_author'] = sp_get_current_userid();
-        $where['id'] = intval($_GET['id']);
+        $where['id'] = I($_GET['id']);
         $post = $dbContent->where($where)->find();
         $this->assign("post", $post);
         $this->display();
@@ -274,6 +293,11 @@ class ProfileController extends MemberbaseController {
         $this->display();
     }
 
+    public function delete_paper()
+    {
+        $this->delete_content('paper');
+    }
+
     private function delete_content($type)
     {
         $dbContent = M("content_" . $type);
@@ -288,12 +312,6 @@ class ProfileController extends MemberbaseController {
         }
 
     }
-
-    public function delete_paper()
-    {
-        $this->delete_content('paper');
-    }
-
 
     public function delete_project()
     {
