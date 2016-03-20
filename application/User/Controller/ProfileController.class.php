@@ -134,9 +134,10 @@ class ProfileController extends MemberbaseController {
         }
         $dbContent = M('content_' . $type);
         $where['post_author'] = sp_get_current_userid();
-        $where['id'] = I($_GET['id']);
+        $where['id'] = $_GET['id'];
         $post = $dbContent->where($where)->find();
         $this->assign("post", $post);
+
         $this->display();
     }
 
