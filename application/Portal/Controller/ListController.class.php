@@ -8,6 +8,7 @@
 // +----------------------------------------------------------------------
 namespace Portal\Controller;
 use Common\Controller\HomebaseController;
+
 /**
  * 文章列表
 */
@@ -46,5 +47,27 @@ class ListController extends HomebaseController {
 		exit(sp_get_nav4admin($navcatname,$datas,$navrule));
 		
 	}
+
+    public function list_content()
+    {
+        //TODO:改下面的代码
+        $term = sp_get_term($_GET['id']);
+
+        if (empty($term)) {
+            header('HTTP/1.1 404 Not Found');
+            header('Status:404 Not Found');
+            if (sp_template_file_exists(MODULE_NAME . "/404")) {
+                $this->display(":404");
+            }
+
+            return;
+        }
+
+        $tplname = $term["list_tpl"];
+        $tplname = sp_get_apphome_tpl($tplname, "list_content");
+        $this->assign($term);
+        $this->assign('cat_id', intval($_GET['id']));
+        $this->display(":$tplname");
+    }
 	
 }
