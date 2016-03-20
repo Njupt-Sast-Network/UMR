@@ -104,16 +104,21 @@ class ProfileController extends MemberbaseController {
             //$_POST['post']['post_date'] = date("Y-m-d H:i:s", time());
             //提交时间(包括修改时间)交由数据库的特性处理
             $_POST['post']['post_author'] = sp_get_current_userid();
+            $map['id'] = sp_get_current_userid();
+            $dbUser = M('users') ->where($map)->select();
+
+
             $article = I("post.post");
             $article['smeta'] = json_encode($_POST['smeta']);
             $article['provement'] = htmlspecialchars_decode($article['provement']);
             $article['id'] = uuid();
+            $article['college'] = $dbUser[0]['user_college'];
             $result = $dbContent->add($article);
             if ($result) {
-                $this->term_relationships_model->add(array( "term_id" => $term_id, "object_id" => $article['id'] ));
-                $this->success("添加成功！");
-            } else {
-                $this->error("添加失败！");
+               $this->term_relationships_model->add(array( "term_id" => $term_id, "object_id" => $article['id'] ));
+               $this->success("添加成功！");
+           } else {
+               $this->error("添加失败！");
             }
 
         }
@@ -165,7 +170,7 @@ class ProfileController extends MemberbaseController {
             if ( !isset($_POST['id'])) {
                 $this->error("缺少参数");
             } else {
-                $where['id'] = intval($_POST['id']);
+                $where['id'] = $_POST['id'];
             }
             $dbContent = M('content_' . I('post.post')['post_type']);
             $_POST['smeta']['thumb'] = sp_asset_relative_url($_POST['smeta']['thumb']);
