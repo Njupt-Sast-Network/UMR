@@ -28,7 +28,7 @@
 				</php>
 
 				<div class="list-boxes">
-					<h2><a href="{:leuu('article/index',array('id'=>$vo['tid'],'cid'=>$vo['term_id']))}">{$vo.post_title}</a></h2>
+					<h2><a href="{:leuu('article/content',array('id'=>$vo['id']))}">{$vo.post_title}</a></h2>
 					<p>{$vo.post_excerpt|msubstr=0,256}</p>
 					<div>
 						<div class="pull-left">
@@ -40,7 +40,7 @@
 							</a>
 							</div>
 						</div>
-						<a class="btn btn-info pull-right" href="{:leuu('article/index',array('id'=>$vo['tid'],'cid'=>$vo['term_id']))}">查看更多</a>
+						<a class="btn btn-info pull-right" href="{:leuu('article/content',array('id'=>$vo['id']))}">查看更多</a>
 					</div>
 				</div>
 				</volist>

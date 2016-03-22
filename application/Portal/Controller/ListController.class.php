@@ -52,25 +52,25 @@ class ListController extends HomebaseController {
     {
         $tplname = $term["list_tpl"];
         $tplname = sp_get_apphome_tpl($tplname, "list_content");
-		if (empty($tplname)) {
-			header('HTTP/1.1 404 Not Found');
-			header('Status:404 Not Found');
-			if (sp_template_file_exists(MODULE_NAME . "/404")) {
-				$this->display(":404");
-			}
+        if (empty($tplname)) {
+            header('HTTP/1.1 404 Not Found');
+            header('Status:404 Not Found');
+            if (sp_template_file_exists(MODULE_NAME . "/404")) {
+                $this->display(":404");
+            }
 
-			return;
-		}
-		$db = M('content');
-		$db2 = 	M('term_relationships');
-		$obj = $db2 ->where('status=1')->select();
-		foreach ($obj as $item) {
-			$objid[] =$item['object_id'];
-		}
-		$map['post_status']=1;//判断文章是否审核通过；
-		$map['id'] = array('in',$objid);//判断文章是否被删除；
-		$list = $db->where($map)->order('post_date')->select();
-		$this->assign('lists_post',$list);
+            return;
+        }
+        $dbContent = M('content');
+        $dbTR = M('term_relationships');
+        $obj = $dbTR->where('status=1')->select();
+        foreach($obj as $item) {
+            $obj_id[] = $item['object_id'];
+        }
+        $map['post_status'] = 1;//判断文章是否审核通过；
+        $map['id'] = array( 'in', $obj_id );//判断文章是否被删除；
+        $list = $dbContent->where($map)->order('post_date')->select();
+        $this->assign('lists_post', $list);
         $this->assign($term);
         $this->display(":$tplname");
     }
