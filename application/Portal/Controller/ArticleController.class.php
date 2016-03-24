@@ -11,6 +11,7 @@
  */
 namespace Portal\Controller;
 use Common\Controller\HomebaseController;
+
 class ArticleController extends HomebaseController {
     //文章内页
     public function index() {
@@ -112,11 +113,11 @@ class ArticleController extends HomebaseController {
 		$this->assign("next",$next);
 		$this->assign("prev",$prev);
 
-//		$smeta=json_decode($article['smeta'],true);
+		$smeta = json_decode($article['smeta'], true);
 		$content_data=sp_content_page($article['post_content']);
 		$article['post_content']=$content_data['content'];
 		$this->assign("page",$content_data['page']);
-		$this->assign($article);
+		$this->assign("article", $article);
 		$this->assign("smeta",$smeta);
 		$this->assign("term",$term);
 		$this->assign("article_id",$article_id);

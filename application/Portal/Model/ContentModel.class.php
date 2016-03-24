@@ -52,7 +52,7 @@ class ContentModel extends CommonModel {
             $tblname = $this->where([ 'id' => $id ])->getField('table_name'); //reveal table name for each uuid
             $db = M($tblname);
             $result = $db->where([ 'id' => $id ])->save($data);
-            \Think\Log::record($result, \Think\Log::DEBUG);
+            //            \Think\Log::record($result, \Think\Log::DEBUG);
             $flag = $flag && ($result !== false ? true : false);//when result for single row failed, flag will be false
         }
         return $flag;
@@ -85,5 +85,18 @@ class ContentModel extends CommonModel {
             $flag = $flag && ($result !== false ? true : false);//when result for single row failed, flag will be false
         }
         return $flag;
+    }
+
+    public function readByUUID($uuid, $field, $where)
+    {
+        $table_name = $this->where([ 'id' => $uuid ])->getField('table_name');
+        $join = "" . C('DB_PREFIX') . "$table_name as b on a.object_id = b.id";
+        $join2 = "" . C('DB_PREFIX') . 'users as c on b.post_author = c.id';
+        if (isset($where['status'])) {
+            $where['b.status'] = $where['status'];
+            unset($where['status']);
+        }
+        $content = M('term_relationships')->alias('a')->join($join)->join($join2)->field($field)->where($where)->find();
+        return $content;
     }
 }

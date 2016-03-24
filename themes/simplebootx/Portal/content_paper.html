@@ -6,9 +6,17 @@
     <meta name="description" content="{$post_excerpt}">
     <tc_include file="Public:head" />
     <style>
-        #article_content img{height:auto !important}
-        #article_content {word-wrap: break-word;}
-        .btn {margin-top: 33px;}
+        #article_content img {
+            height: auto !important
+        }
+
+        #article_content {
+            word-wrap: break-word;
+        }
+
+        .btn {
+            margin-top: 33px;
+        }
     </style>
 </head>
 <body class="">
@@ -31,7 +39,7 @@
                 </div>
                 <hr>
                 <div id="article_content">
-                    {$post_content}
+                    <?php dump($article); ?>;
                 </div>
                 <div>
                     <if condition="!empty($prev)">
@@ -44,10 +52,10 @@
                     <div id="qrcode" style="width: 100px;margin:0 auto"></div>
                     <script type="text/javascript">
                         var qrcode = new QRCode(document.getElementById("qrcode"), {
-                            width : 100,
-                            height : 100
+                            width: 100,
+                            height: 100
                         });
-                        function makeCode () {
+                        function makeCode() {
                             qrcode.makeCode("http://{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}");
                         }
                         makeCode();
@@ -63,26 +71,37 @@
                 ))}
             </div>
 
-            <php>$ad=sp_getad("portal_article_bottom");</php>
-            <if condition="!empty($ad)">
-                <div class="tc-box">
-                    <div class="headtitle">
-                        <h2>赞助商</h2>
-                    </div>
-                    <div>
-                        {$ad}
-                    </div>
-                </div>
-            </if>
-
         </div>
         <div class="span3">
             <div class="tc-box first-box">
                 <div class="headtitle">
                     <h2>分享</h2>
                 </div>
-                <div class="bdsharebuttonbox"><a href="#" class="bds_more" data-cmd="more"></a><a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a><a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a><a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a><a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博"></a><a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网"></a></div>
-                <script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"2","bdSize":"32"},"share":{},"image":{"viewList":["weixin","tsina","qzone","tqq","renren"],"viewText":"分享到：","viewSize":"32"},"selectShare":{"bdContainerClass":null,"bdSelectMiniList":["weixin","tsina","qzone","tqq","renren"]}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
+                <div class="bdsharebuttonbox">
+                    <a href="#" class="bds_more" data-cmd="more"></a><a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a><a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a><a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a><a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博"></a><a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网"></a>
+                </div>
+                <script>window._bd_share_config = {
+                    "common": {
+                        "bdSnsKey": {},
+                        "bdText": "",
+                        "bdMini": "2",
+                        "bdMiniList": false,
+                        "bdPic": "",
+                        "bdStyle": "2",
+                        "bdSize": "32"
+                    },
+                    "share": {},
+                    "image": {
+                        "viewList": ["weixin", "tsina", "qzone", "tqq", "renren"],
+                        "viewText": "分享到：",
+                        "viewSize": "32"
+                    },
+                    "selectShare": {
+                        "bdContainerClass": null,
+                        "bdSelectMiniList": ["weixin", "tsina", "qzone", "tqq", "renren"]
+                    }
+                };
+                with (document)0[(getElementsByTagName('head')[0] || body).appendChild(createElement('script')).src = 'http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion=' + ~(-new Date() / 36e5)];</script>
             </div>
 
             <div class="tc-box">
@@ -91,12 +110,15 @@
                 </div>
                 <div class="ranking">
                     <php>
-                        $hot_articles=sp_sql_posts("cid:$portal_hot_articles;field:post_title,post_excerpt,tid,smeta,term_id;order:post_hits desc;limit:5;");
+                        $hot_articles=sp_sql_posts("cid:$portal_hot_articles;field:post_title,post_excerpt,tid,smeta,term_id;order:post_hits
+                        desc;limit:5;");
                     </php>
                     <ul class="unstyled">
                         <foreach name="hot_articles" item="vo">
                             <php>$top=$key<3?"top3":"";</php>
-                            <li class="{$top}"><i>{$key+1}</i><a title="{$vo.post_title}" href="{:leuu('article/index',array('id'=>$vo['tid'],'cid'=>$vo['term_id']))}">{$vo.post_title}</a></li>
+                            <li class="{$top}">
+                                <i>{$key+1}</i><a title="{$vo.post_title}" href="{:leuu('article/index',array('id'=>$vo['tid'],'cid'=>$vo['term_id']))}">{$vo.post_title}</a>
+                            </li>
                         </foreach>
                     </ul>
                 </div>
@@ -142,9 +164,9 @@
 
     </div>
 
-    <tc_include file="Public:footer"/>
+    <tc_include file="Public:footer" />
 </div>
 
-<tc_include file="Public:scripts"/>
+<tc_include file="Public:scripts" />
 </body>
 </html>
