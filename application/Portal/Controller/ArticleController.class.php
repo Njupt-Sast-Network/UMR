@@ -116,6 +116,18 @@ class ArticleController extends HomebaseController {
 		$smeta = json_decode($article['smeta'], true);
 		$content_data=sp_content_page($article['post_content']);
 		$article['post_content']=$content_data['content'];
+		switch ($article['term_id']){
+			case 2: $article['content_type'] = '论文';
+				break;
+			case 3: $article['content_type'] = '项目';
+				break;
+			case 4: $article['content_type'] = '获奖';
+				break;
+			case 5: $article['content_type'] = '专利';
+				break;
+		}
+
+
 		$this->assign("page",$content_data['page']);
 		$this->assign("article", $article);
 		$this->assign("smeta",$smeta);

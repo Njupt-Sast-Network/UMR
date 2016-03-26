@@ -69,7 +69,22 @@ class ListController extends HomebaseController {
         }
         $map['post_status'] = 1;//判断文章是否审核通过；
         $map['id'] = array( 'in', $obj_id );//判断文章是否被删除；
-        $list = $dbContent->where($map)->order('post_date')->select();
+        $list = $dbContent->where($map)->order('post_date desc')->select();
+		for ($i = 0;$i<count($list);$i++){
+			$user = M('users')->where('id='.$list[$i]['post_author'])->select();
+			$list[$i]['author'] = $user[0]['user_name'];
+			switch ($list[$i]['table_name']){
+				case 'content_paper': $list[$i]['content_type'] = '论文';
+					break;
+				case 'content_project': $list[$i]['content_type'] = '项目';
+					break;
+				case 'content_award': $list[$i]['content_type'] = '获奖';
+					break;
+				case 'content_patent': $list[$i]['content_type'] = '专利';
+					break;
+			}
+		}
+
         $this->assign('lists_post', $list);
         $this->assign($term);
         $this->display(":$tplname");
