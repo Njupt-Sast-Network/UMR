@@ -15,6 +15,9 @@
 		<div class="row">
 			<div class="span4 offset4">
 				<h2 class="text-center">用户登录</h2>
+				<div class="control-group" style="text-align: center;">
+					<p>本系统登录是通过智慧校园来进行实名验证，请使用智慧校园账号登录。</p>
+				</div>
 				<form class="form-horizontal js-ajax-forms" action="{:U('user/login/dologin')}" method="post">
 					<div class="control-group">
 						<input type="text" id="input_username" name="username" placeholder="手机号/邮箱/用户名" class="span4">
@@ -36,12 +39,7 @@
 						<button class="btn btn-primary js-ajax-submit span4" type="submit" style="margin-left: 0px">确定</button>
 					</div>
 
-					<div class="control-group" style="text-align: center;">
-						<ul class="inline">
-							<li><a href="{:leuu('user/register/index')}">现在注册</a></li>
-							<li><a href="{:U('user/login/forgot_password')}">忘记密码</a></li>
-						</ul>
-					</div>
+
 				</form>
 			</div>
 		</div>
