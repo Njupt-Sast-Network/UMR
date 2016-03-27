@@ -47,7 +47,7 @@
 				<tr>
 					<td><input type="checkbox" class="js-check" data-yid="js-check-y" data-xid="js-check-x" name="ids[]" value="{$vo.object_id}" title="ID:{$vo.object_id}"></td>
 					<td><input name="listorders[{$vo.object_id}]" class="input input-order" type="text" size="5" value="{$vo.listorder}" title="ID:{$vo.object_id}"></td>
-					<td><a href="{:U('portal/article/index',array('id'=>$vo['id']))}" target="_blank"> <span>{$vo.post_title}</span></a></td>
+					<td><a href="{:U('portal/article/content',array('id'=>$vo['id']))}" target="_blank"> <span>{$vo.post_title}</span></a></td>
 					<td>{$terms[$vo['term_id']]}</td>
 					<td>{$vo.post_hits}</td>
 					<td><a href="javascript:open_iframe_dialog('{:U('comment/commentadmin/index',array('post_id'=>$vo['id']))}','评论列表')">{$vo.comment_count}</a></td>

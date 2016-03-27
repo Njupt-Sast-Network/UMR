@@ -101,7 +101,7 @@ class ProfileController extends MemberbaseController {
             $dbContent = M('content_' . I('post.post')['post_type']);
             $_POST['smeta']['thumb'] = sp_asset_relative_url($_POST['smeta']['thumb']);
 
-            //$_POST['post']['post_date'] = date("Y-m-d H:i:s", time());
+//            $_POST['post']['post_date'] = date("Y-m-d H:i:s", time());
             //提交时间(包括修改时间)交由数据库的特性处理
             $_POST['post']['post_author'] = sp_get_current_userid();
             $map['id'] = sp_get_current_userid();
@@ -175,8 +175,7 @@ class ProfileController extends MemberbaseController {
             $dbContent = M('content_' . I('post.post')['post_type']);
             $_POST['smeta']['thumb'] = sp_asset_relative_url($_POST['smeta']['thumb']);
 
-            //$_POST['post']['post_date'] = date("Y-m-d H:i:s", time());
-            //提交时间(包括修改时间)交由数据库的特性处理
+            $_POST['post']['post_modified'] = date("Y-m-d H:i:s", time());
 
             $where['post_author'] = sp_get_current_userid();
             $article = I("post.post");

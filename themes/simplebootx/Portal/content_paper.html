@@ -2,12 +2,11 @@
 <html>
 <head>
     <title>
-        <php> echo $article['title'];</php>
-        | {$site_name}
+        {$article['title']} | {$site_name}
     </title>
-    <meta name="keywords" content="{$post_keywords}"/>
+    <meta name="keywords" content="{$post_keywords}" />
     <meta name="description" content="{$post_excerpt}">
-    <tc_include file="Public:head"/>
+    <tc_include file="Public:head" />
     <style>
         #article_content img {
             height: auto !important
@@ -23,61 +22,58 @@
     </style>
 </head>
 <body class="">
-<tc_include file="Public:nav"/>
+<tc_include file="Public:nav" />
 <div class="container tc-main">
     <div class="row">
         <div class="span9">
 
             <div class="tc-box first-box article-box">
                 <h2>
-                    <php> echo $article['title'];</php>
-                    <span class="label" style="min-width: 2em;margin: 1em;background-color: #00a2d4"><php>echo
-                        $article['content_type']
-                    </php></span></h2>
+                    {$article['title']}
+                    <span class="label" style="min-width: 2em;margin: 1em;background-color: #00a2d4">
+                        {$article['content_type']}</span></h2>
                 <div class="article-infobox">
-                    <span><php> echo $article['post_date'];</php> <a
-                            href="../../../user/index/index/id/{$article['post_author']}">
-                        <php> echo $article['user_name'];</php>
-                    </a></span>
+                    <span>{$article['post_modified']}
+                        <a href="{:leuu('user/index/index',array('id'=>$article['post_author']))}">
+                            {$article['user_name']}
+                        </a>
+                    </span>
 		    		<span>
-                        <a href="{:U('user/favorite/do_favorite',array('id'=>$object_id))}" class="js-favorite-btn"
+                        <a href="{:leuu('user/favorite/do_favorite',array('id'=>$object_id))}" class="js-favorite-btn"
                            data-title="{$post_title}"
-                           data-url="{:leuu('article/index',array('id'=>$tid,'cid'=>$term_id))}"
+                           data-url="{:leuu('article/content',array('id'=>$article['object_id']))}"
                            data-key="{:sp_get_favorite_key('posts',$object_id)}">
                             <i class="fa fa-star-o"></i>
                         </a>
-		    			<a href="javascript:;"><i class="fa fa-eye"></i><span><php> echo $article['post_hits'];
-                        </php></span></a>
+		    			<a href="javascript:;"><i class="fa fa-eye"></i><span>{$article['post_hits']}</span></a>
 						<a href="{:U('article/do_like',array('id'=>$object_id))}" class="js-count-btn"><i
-                                class="fa fa-thumbs-up"></i><span class="count"><php> echo $article['post_like'];</php></span></a>
+                                class="fa fa-thumbs-up"></i><span class="count">{$article['post_like']}</span></a>
 
 					</span>
                 </div>
                 <hr>
                 <div id="article_content">
+                    <h3>标题</h3>
+                    <p>{$article['title']}</p>
+                    <h3>出版社</h3>
+                    <p>{$article['press']}</p>
+                    <h3>出版日期</h3>
+                    <p>{$article['publish_date']}</p>
+                    <h3>卷号/页码</h3>
+                    <p>{$article['volume_info']}</p>
+                    <h3>作者列表</h3>
+                    <p>{$article['author_list']}</p>
+                    <h3>本人贡献度</h3>
+                    <p>{$article['contribute']}</p>
+                    <h3>期刊级别</h3>
+                    <p>{$article['journal_class']}</p>
+                    <h3>证明材料</h3>
+                    <p>{$article['provement']}</p>
                     <?php dump($article); ?>
-                    <h4>期刊/出版社：{$article['press']}</h4>
                 </div>
-                <div>
-                    <script type="text/javascript" src="__TMPL__Public/js/qrcode.min.js"></script>
-                    <div id="qrcode" style="width: 100px;margin:0 auto"></div>
-                    <script type="text/javascript">
-                        var qrcode = new QRCode(document.getElementById("qrcode"), {
-                            width: 100,
-                            height: 100
-                        });
-                        function makeCode() {
-                            qrcode.makeCode("http://{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}");
-                        }
-                        makeCode();
-                    </script>
-                    <div class="clearfix"></div>
-                </div>
-
-
                 {:hook('comment',array(
-                'post_id'=>$object_id,
-                'post_table'=>'posts',
+                'post_id'=>$article['object_id'],
+                'post_table'=>'content_paper',
                 'post_title'=>$post_title
                 ))}
             </div>
@@ -90,12 +86,7 @@
                 </div>
                 <div class="bdsharebuttonbox">
                     <a href="#" class="bds_more" data-cmd="more"></a><a href="#" class="bds_weixin" data-cmd="weixin"
-                                                                        title="分享到微信"></a><a href="#" class="bds_tsina"
-                                                                                             data-cmd="tsina"
-                                                                                             title="分享到新浪微博"></a><a
                         href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a><a href="#" class="bds_tqq"
-                                                                                           data-cmd="tqq"
-                                                                                           title="分享到腾讯微博"></a><a
                         href="#" class="bds_renren" data-cmd="renren" title="分享到人人网"></a>
                 </div>
                 <script>window._bd_share_config = {
@@ -183,9 +174,9 @@
 
     </div>
 
-    <tc_include file="Public:footer"/>
+    <tc_include file="Public:footer" />
 </div>
 
-<tc_include file="Public:scripts"/>
+<tc_include file="Public:scripts" />
 </body>
 </html>

@@ -65,7 +65,7 @@ class ArticleController extends HomebaseController {
     public function do_like(){
     	$this->check_login();
     	
-    	$id=intval($_GET['id']);//posts表中id
+    	$id=intval($_GET['id']);//posts表中id TODO:fix it
     	
     	$posts_model=M("Posts");
     	

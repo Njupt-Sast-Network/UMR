@@ -72,10 +72,10 @@ class CommentController extends MemberbaseController{
 					$pk=$post_table_model->getPk();
 					
 					$post_table_model->create(array("comment_count"=>array("exp","comment_count+1")));
-					$post_table_model->where(array($pk=>intval($_POST['post_id'])))->save();
+					$post_table_model->where(array($pk=>$_POST['post_id']))->save();
 					
 					$post_table_model->create(array("last_comment"=>time()));
-					$post_table_model->where(array($pk=>intval($_POST['post_id'])))->save();
+					$post_table_model->where(array($pk=>$_POST['post_id']))->save();
 					
 					$this->ajaxReturn(sp_ajax_return(array("id"=>$result),"评论成功！",1));
 				} else {

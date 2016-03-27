@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>{$post_title} | {$site_name} </title>
+    <title>
+        {$article['title']} | {$site_name}
+    </title>
     <meta name="keywords" content="{$post_keywords}" />
     <meta name="description" content="{$post_excerpt}">
     <tc_include file="Public:head" />
@@ -26,47 +28,49 @@
         <div class="span9">
 
             <div class="tc-box first-box article-box">
-                <h2>{$post_title}</h2>
+                <h2>
+                    {$article['title']}
+                    <span class="label" style="min-width: 2em;margin: 1em;background-color: #00a2d4">
+                        {$article['content_type']}</span></h2>
                 <div class="article-infobox">
-                    <span>{$post_date} by {$user_name|default=$user_login}</span>
-		    		<span>
-		    			<a href="javascript:;"><i class="fa fa-eye"></i><span>{$post_hits}</span></a>
-						<a href="{:U('article/do_like',array('id'=>$object_id))}" class="js-count-btn"><i class="fa fa-thumbs-up"></i><span class="count">{$post_like}</span></a>
-						<a href="{:U('user/favorite/do_favorite',array('id'=>$object_id))}" class="js-favorite-btn" data-title="{$post_title}" data-url="{:leuu('article/index',array('id'=>$tid,'cid'=>$term_id))}" data-key="{:sp_get_favorite_key('posts',$object_id)}">
+                    <span>{$article['post_modified']}
+                        <a href="{:leuu('user/index/index',array('id'=>$article['post_author']))}">
+                            {$article['user_name']}
+                        </a>
+                    </span>
+                    <span>
+                        <a href="{:leuu('user/favorite/do_favorite',array('id'=>$object_id))}" class="js-favorite-btn"
+                           data-title="{$post_title}"
+                           data-url="{:leuu('article/content',array('id'=>$article['object_id']))}"
+                           data-key="{:sp_get_favorite_key('posts',$object_id)}">
                             <i class="fa fa-star-o"></i>
                         </a>
-					</span>
+                        <a href="javascript:;"><i class="fa fa-eye"></i><span>{$article['post_hits']}</span></a>
+                        <a href="{:U('article/do_like',array('id'=>$object_id))}" class="js-count-btn"><i
+                                class="fa fa-thumbs-up"></i><span class="count">{$article['post_like']}</span></a>
+
+                    </span>
                 </div>
                 <hr>
                 <div id="article_content">
-                    <?php dump($article); ?>;
-                </div>
-                <div>
-                    <if condition="!empty($prev)">
-                        <a href="{:leuu('article/index',array('id'=>$prev['tid'],'cid'=>$prev['term_id']))}" class="btn btn-primary pull-left">上一篇</a>
-                    </if>
-                    <if condition="!empty($next)">
-                        <a href="{:leuu('article/index',array('id'=>$next['tid'],'cid'=>$next['term_id']))}" class="btn btn-info pull-right">下一篇</a>
-                    </if>
-                    <script type="text/javascript" src="__TMPL__Public/js/qrcode.min.js"></script>
-                    <div id="qrcode" style="width: 100px;margin:0 auto"></div>
-                    <script type="text/javascript">
-                        var qrcode = new QRCode(document.getElementById("qrcode"), {
-                            width: 100,
-                            height: 100
-                        });
-                        function makeCode() {
-                            qrcode.makeCode("http://{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}");
-                        }
-                        makeCode();
-                    </script>
-                    <div class="clearfix"></div>
+
+                    <h3>项目名称</h3>
+                    <p>{$article['title']}</p>
+                    <h3>项目类型</h3>
+                    <p>{$article['type']}</p>
+                    <h3>项目级别</h3>
+                    <p>{$article['project_level']}</p>
+                    <h3>项目经费额度</h3>
+                    <p>{$article['fund']}</p>
+                    <h3>证明材料</h3>
+                    <p>{$article['provement']}</p>
+                    <?php dump($article); ?>
                 </div>
 
 
                 {:hook('comment',array(
-                'post_id'=>$object_id,
-                'post_table'=>'posts',
+                'post_id'=>$article['object_id'],
+                'post_table'=>'content_project',
                 'post_title'=>$post_title
                 ))}
             </div>
@@ -78,7 +82,9 @@
                     <h2>分享</h2>
                 </div>
                 <div class="bdsharebuttonbox">
-                    <a href="#" class="bds_more" data-cmd="more"></a><a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a><a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a><a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a><a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博"></a><a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网"></a>
+                    <a href="#" class="bds_more" data-cmd="more"></a><a href="#" class="bds_weixin" data-cmd="weixin"
+                                                                        href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a><a href="#" class="bds_tqq"
+                                                                                                                                           href="#" class="bds_renren" data-cmd="renren" title="分享到人人网"></a>
                 </div>
                 <script>window._bd_share_config = {
                     "common": {
@@ -117,7 +123,8 @@
                         <foreach name="hot_articles" item="vo">
                             <php>$top=$key<3?"top3":"";</php>
                             <li class="{$top}">
-                                <i>{$key+1}</i><a title="{$vo.post_title}" href="{:leuu('article/index',array('id'=>$vo['tid'],'cid'=>$vo['term_id']))}">{$vo.post_title}</a>
+                                <i>{$key+1}</i><a title="{$vo.post_title}"
+                                                  href="{:leuu('article/index',array('id'=>$vo['tid'],'cid'=>$vo['term_id']))}">{$vo.post_title}</a>
                             </li>
                         </foreach>
                     </ul>
