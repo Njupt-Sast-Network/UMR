@@ -64,8 +64,7 @@ class ArticleController extends HomebaseController {
     
     public function do_like(){
     	$this->check_login();
-    	
-    	$object_id=$_POST['object_id'];//content表中id TODO:前端部分有点BUG，ajax post里带个object_id字段即可成功点赞
+    	$object_id=$_GET['id'];//content表中id TODO:前端部分有点BUG，ajax post里带个object_id字段即可成功点赞
 
     	$can_like=sp_check_user_action($object_id,1);//这个函数是会有副作用的，不只是简单的check。如果没有结果会写数据库，坑。
     	
