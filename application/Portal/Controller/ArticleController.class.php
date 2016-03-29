@@ -64,14 +64,14 @@ class ArticleController extends HomebaseController {
     
     public function do_like(){
     	$this->check_login();
-    	$object_id=$_GET['id'];//content表中id TODO:前端部分有点BUG，ajax post里带个object_id字段即可成功点赞
+    	$object_id=$_GET['id'];//content表中id
 
     	$can_like=sp_check_user_action($object_id,1);//这个函数是会有副作用的，不只是简单的check。如果没有结果会写数据库，坑。
     	
     	if($can_like){
     		D('content')->saveByUUID($object_id,array("post_like"=>array("exp","post_like+1")));
+			D('like')->data(['user_id'=>sp_get_current_userid(),'object_id'=>$object_id])->add();
     		$this->success("赞好啦！");
-			//TODO:加一个点赞表，记录点赞用户的信息
     	}else{
     		$this->error("您已赞过啦！");
     	}
@@ -92,6 +92,7 @@ class ArticleController extends HomebaseController {
 		$termid=$article['term_id'];
 		$term_obj= M("Terms");
 		$term=$term_obj->where("term_id='$termid'")->find();
+        $str_like_list = D('like')->getLikeByUUID($id,true);
 
 		$article_id=$article['object_id'];
 
@@ -131,6 +132,7 @@ class ArticleController extends HomebaseController {
 		$this->assign("smeta",$smeta);
 		$this->assign("term",$term);
 		$this->assign("article_id",$article_id);
+        $this->assign("str_like_list",$str_like_list);
 
 		$tplname=$term["one_tpl"];
 		$tplname=sp_get_apphome_tpl($tplname, "article");

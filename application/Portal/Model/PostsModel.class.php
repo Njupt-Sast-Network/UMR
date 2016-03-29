@@ -1,5 +1,5 @@
 <?php
-namespace Common\Model;
+namespace Portal\Model;
 use Common\Model\CommonModel;
 class PostsModel extends CommonModel {
 	/*

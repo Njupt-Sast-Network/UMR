@@ -6,9 +6,10 @@
  * Time: 16:18
  */
 
-namespace Common\Model;
+namespace Portal\Model;
 
 use Think;
+use Common\Model\CommonModel;
 
 class ContentModel extends CommonModel {
     Protected $autoCheckFields = false;

@@ -1,9 +1,9 @@
 -- phpMyAdmin SQL Dump
--- version 4.5.4.1
+-- version 4.6.0
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: 2016-03-19 14:35:28
+-- Generation Time: 2016-03-29 15:34:46
 -- 服务器版本： 10.1.12-MariaDB
 -- PHP Version: 5.6.15
 
@@ -30,6 +30,7 @@ USE `umr`;
 -- 表的结构 `umr_ad`
 --
 
+DROP TABLE IF EXISTS `umr_ad`;
 CREATE TABLE `umr_ad` (
   `ad_id` bigint(20) NOT NULL COMMENT '广告id',
   `ad_name` varchar(255) NOT NULL COMMENT '广告名称',
@@ -37,16 +38,13 @@ CREATE TABLE `umr_ad` (
   `status` int(2) NOT NULL DEFAULT '1' COMMENT '状态，1显示，0不显示'
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
---
--- 表的关联 `umr_ad`:
---
-
 -- --------------------------------------------------------
 
 --
 -- 表的结构 `umr_asset`
 --
 
+DROP TABLE IF EXISTS `umr_asset`;
 CREATE TABLE `umr_asset` (
   `aid` bigint(20) NOT NULL,
   `uid` int(11) NOT NULL DEFAULT '0' COMMENT '用户 id',
@@ -62,15 +60,17 @@ CREATE TABLE `umr_asset` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='资源表';
 
 --
--- 表的关联 `umr_asset`:
+-- 插入之前先把表清空（truncate） `umr_asset`
 --
 
+TRUNCATE TABLE `umr_asset`;
 -- --------------------------------------------------------
 
 --
 -- 表的结构 `umr_auth_access`
 --
 
+DROP TABLE IF EXISTS `umr_auth_access`;
 CREATE TABLE `umr_auth_access` (
   `role_id` mediumint(8) UNSIGNED NOT NULL COMMENT '角色',
   `rule_name` varchar(255) NOT NULL COMMENT '规则唯一英文标识,全小写',
@@ -78,15 +78,17 @@ CREATE TABLE `umr_auth_access` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='权限授权表';
 
 --
--- 表的关联 `umr_auth_access`:
+-- 插入之前先把表清空（truncate） `umr_auth_access`
 --
 
+TRUNCATE TABLE `umr_auth_access`;
 -- --------------------------------------------------------
 
 --
 -- 表的结构 `umr_auth_rule`
 --
 
+DROP TABLE IF EXISTS `umr_auth_rule`;
 CREATE TABLE `umr_auth_rule` (
   `id` mediumint(8) UNSIGNED NOT NULL COMMENT '规则id,自增主键',
   `module` varchar(20) NOT NULL COMMENT '规则所属module',
@@ -97,10 +99,6 @@ CREATE TABLE `umr_auth_rule` (
   `status` tinyint(1) NOT NULL DEFAULT '1' COMMENT '是否有效(0:无效,1:有效)',
   `condition` varchar(300) NOT NULL DEFAULT '' COMMENT '规则附加条件'
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='权限规则表';
-
---
--- 表的关联 `umr_auth_rule`:
---
 
 --
 -- 插入之前先把表清空（truncate） `umr_auth_rule`
@@ -280,10 +278,11 @@ INSERT INTO `umr_auth_rule` (`id`, `module`, `type`, `name`, `param`, `title`, `
 -- 表的结构 `umr_comments`
 --
 
+DROP TABLE IF EXISTS `umr_comments`;
 CREATE TABLE `umr_comments` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `post_table` varchar(100) NOT NULL COMMENT '评论内容所在表，不带表前缀',
-  `post_id` int(11) UNSIGNED NOT NULL DEFAULT '0' COMMENT '评论内容 id',
+  `post_id` char(36) NOT NULL DEFAULT '0' COMMENT '评论内容 id',
   `url` varchar(255) DEFAULT NULL COMMENT '原文地址',
   `uid` int(11) NOT NULL DEFAULT '0' COMMENT '发表评论的用户id',
   `to_uid` int(11) NOT NULL DEFAULT '0' COMMENT '被评论的用户id',
@@ -297,16 +296,13 @@ CREATE TABLE `umr_comments` (
   `status` smallint(1) NOT NULL DEFAULT '1' COMMENT '状态，1已审核，0未审核'
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='评论表';
 
---
--- 表的关联 `umr_comments`:
---
-
 -- --------------------------------------------------------
 
 --
 -- 表的结构 `umr_common_action_log`
 --
 
+DROP TABLE IF EXISTS `umr_common_action_log`;
 CREATE TABLE `umr_common_action_log` (
   `id` int(11) NOT NULL,
   `user` bigint(20) DEFAULT '0' COMMENT '用户id',
@@ -317,15 +313,13 @@ CREATE TABLE `umr_common_action_log` (
   `ip` varchar(15) DEFAULT NULL COMMENT '访问者最后访问ip'
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='访问记录表';
 
---
--- 表的关联 `umr_common_action_log`:
---
-
 -- --------------------------------------------------------
 
 --
 -- 替换视图以便查看 `umr_content`
+-- (See below for the actual view)
 --
+DROP VIEW IF EXISTS `umr_content`;
 CREATE TABLE `umr_content` (
 `id` char(36)
 ,`post_author` bigint(20) unsigned
@@ -345,8 +339,10 @@ CREATE TABLE `umr_content` (
 -- 表的结构 `umr_content_award`
 --
 
+DROP TABLE IF EXISTS `umr_content_award`;
 CREATE TABLE `umr_content_award` (
   `id` char(36) NOT NULL COMMENT 'UUID',
+  `college` varchar(50) DEFAULT NULL COMMENT '学院名称',
   `post_author` bigint(20) UNSIGNED NOT NULL DEFAULT '0' COMMENT '发表内容者id',
   `title` varchar(255) NOT NULL COMMENT '获奖名称',
   `grantee_list` varchar(255) NOT NULL COMMENT '获奖者列表',
@@ -356,7 +352,7 @@ CREATE TABLE `umr_content_award` (
   `status` tinyint(2) DEFAULT '0' COMMENT '状态，1已审核，0未审核',
   `comment_status` tinyint(2) DEFAULT '1' COMMENT '评论状态，1允许，0不允许',
   `post_date` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '内容创建日期，永久不变，一般不显示给用户',
-  `post_modified` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '内容更新时间，可在前台修改，显示给用户',
+  `post_modified` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '内容更新时间，可在前台修改，显示给用户',
   `post_content_filtered` longtext,
   `comment_count` bigint(20) DEFAULT '0',
   `smeta` text COMMENT '扩展字段，保存相关扩展属性，如缩略图；格式为json',
@@ -366,18 +362,16 @@ CREATE TABLE `umr_content_award` (
   `recommended` tinyint(1) NOT NULL DEFAULT '0' COMMENT '推荐 1推荐 0不推荐'
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='获奖表';
 
---
--- 表的关联 `umr_content_award`:
---
-
 -- --------------------------------------------------------
 
 --
 -- 表的结构 `umr_content_paper`
 --
 
+DROP TABLE IF EXISTS `umr_content_paper`;
 CREATE TABLE `umr_content_paper` (
   `id` char(36) NOT NULL COMMENT 'UUID',
+  `college` varchar(50) DEFAULT NULL COMMENT '学院名称',
   `post_author` bigint(20) UNSIGNED NOT NULL DEFAULT '0' COMMENT '发表内容者id',
   `title` text NOT NULL COMMENT '论文标题',
   `press` varchar(255) NOT NULL COMMENT '论文出版社',
@@ -390,7 +384,7 @@ CREATE TABLE `umr_content_paper` (
   `status` tinyint(2) DEFAULT '0' COMMENT '状态，1已审核，0未审核',
   `comment_status` tinyint(2) DEFAULT '1' COMMENT '评论状态，1允许，0不允许',
   `post_date` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '内容创建日期，永久不变，一般不显示给用户',
-  `post_modified` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '内容更新时间，可在前台修改，显示给用户',
+  `post_modified` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '内容更新时间，可在前台修改，显示给用户',
   `post_content_filtered` longtext,
   `comment_count` bigint(20) DEFAULT '0',
   `smeta` text COMMENT '扩展字段，保存相关扩展属性，如缩略图；格式为json',
@@ -400,18 +394,16 @@ CREATE TABLE `umr_content_paper` (
   `recommended` tinyint(1) NOT NULL DEFAULT '0' COMMENT '推荐 1推荐 0不推荐'
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='论文表';
 
---
--- 表的关联 `umr_content_paper`:
---
-
 -- --------------------------------------------------------
 
 --
 -- 表的结构 `umr_content_patent`
 --
 
+DROP TABLE IF EXISTS `umr_content_patent`;
 CREATE TABLE `umr_content_patent` (
   `id` char(36) NOT NULL COMMENT 'UUID',
+  `college` varchar(50) DEFAULT NULL COMMENT '学院名称',
   `post_author` bigint(20) UNSIGNED NOT NULL DEFAULT '0' COMMENT '发表内容者id',
   `title` text NOT NULL COMMENT '专利名(标题)',
   `type` tinyint(2) UNSIGNED NOT NULL COMMENT '专利类型',
@@ -420,7 +412,7 @@ CREATE TABLE `umr_content_patent` (
   `status` tinyint(2) DEFAULT '0' COMMENT '状态，1已审核，0未审核',
   `comment_status` tinyint(2) DEFAULT '1' COMMENT '评论状态，1允许，0不允许',
   `post_date` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '内容创建日期，永久不变，一般不显示给用户',
-  `post_modified` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '内容更新时间，可在前台修改，显示给用户',
+  `post_modified` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '内容更新时间，可在前台修改，显示给用户',
   `post_content_filtered` longtext,
   `comment_count` bigint(20) DEFAULT '0',
   `smeta` text COMMENT '扩展字段，保存相关扩展属性，如缩略图；格式为json',
@@ -430,18 +422,16 @@ CREATE TABLE `umr_content_patent` (
   `recommended` tinyint(1) NOT NULL DEFAULT '0' COMMENT '推荐 1推荐 0不推荐'
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='专利表';
 
---
--- 表的关联 `umr_content_patent`:
---
-
 -- --------------------------------------------------------
 
 --
 -- 表的结构 `umr_content_project`
 --
 
+DROP TABLE IF EXISTS `umr_content_project`;
 CREATE TABLE `umr_content_project` (
   `id` char(36) NOT NULL COMMENT 'UUID',
+  `college` varchar(50) DEFAULT NULL COMMENT '学院名称',
   `post_author` bigint(20) UNSIGNED NOT NULL DEFAULT '0' COMMENT '发表内容者id',
   `title` text NOT NULL COMMENT '项目名(标题)',
   `type` varchar(255) NOT NULL COMMENT '项目类型',
@@ -451,7 +441,7 @@ CREATE TABLE `umr_content_project` (
   `status` tinyint(2) DEFAULT '0' COMMENT '状态，1已审核，0未审核',
   `comment_status` tinyint(2) DEFAULT '1' COMMENT '评论状态，1允许，0不允许',
   `post_date` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '内容创建日期，永久不变，一般不显示给用户',
-  `post_modified` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '内容更新时间，可在前台修改，显示给用户',
+  `post_modified` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '内容更新时间，可在前台修改，显示给用户',
   `post_content_filtered` longtext,
   `comment_count` bigint(20) DEFAULT '0',
   `smeta` text COMMENT '扩展字段，保存相关扩展属性，如缩略图；格式为json',
@@ -461,16 +451,13 @@ CREATE TABLE `umr_content_project` (
   `recommended` tinyint(1) NOT NULL DEFAULT '0' COMMENT '推荐 1推荐 0不推荐'
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='项目表';
 
---
--- 表的关联 `umr_content_project`:
---
-
 -- --------------------------------------------------------
 
 --
 -- 表的结构 `umr_guestbook`
 --
 
+DROP TABLE IF EXISTS `umr_guestbook`;
 CREATE TABLE `umr_guestbook` (
   `id` int(11) NOT NULL,
   `full_name` varchar(50) NOT NULL COMMENT '留言者姓名',
@@ -481,9 +468,19 @@ CREATE TABLE `umr_guestbook` (
   `status` smallint(2) NOT NULL DEFAULT '1' COMMENT '留言状态，1：正常，0：删除'
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='留言表';
 
+-- --------------------------------------------------------
+
 --
--- 表的关联 `umr_guestbook`:
+-- 表的结构 `umr_like`
 --
+
+DROP TABLE IF EXISTS `umr_like`;
+CREATE TABLE `umr_like` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `object_id` char(36) NOT NULL,
+  `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -491,6 +488,7 @@ CREATE TABLE `umr_guestbook` (
 -- 表的结构 `umr_links`
 --
 
+DROP TABLE IF EXISTS `umr_links`;
 CREATE TABLE `umr_links` (
   `link_id` bigint(20) UNSIGNED NOT NULL,
   `link_url` varchar(255) NOT NULL COMMENT '友情链接地址',
@@ -503,10 +501,6 @@ CREATE TABLE `umr_links` (
   `link_rel` varchar(255) DEFAULT NULL COMMENT '链接与网站的关系',
   `listorder` int(10) NOT NULL DEFAULT '0' COMMENT '排序'
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='友情链接表';
-
---
--- 表的关联 `umr_links`:
---
 
 --
 -- 插入之前先把表清空（truncate） `umr_links`
@@ -526,6 +520,7 @@ INSERT INTO `umr_links` (`link_id`, `link_url`, `link_name`, `link_image`, `link
 -- 表的结构 `umr_menu`
 --
 
+DROP TABLE IF EXISTS `umr_menu`;
 CREATE TABLE `umr_menu` (
   `id` smallint(6) UNSIGNED NOT NULL,
   `parentid` smallint(6) UNSIGNED NOT NULL DEFAULT '0',
@@ -540,10 +535,6 @@ CREATE TABLE `umr_menu` (
   `remark` varchar(255) NOT NULL COMMENT '备注',
   `listorder` smallint(6) UNSIGNED NOT NULL DEFAULT '0' COMMENT '排序ID'
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='后台菜单表';
-
---
--- 表的关联 `umr_menu`:
---
 
 --
 -- 插入之前先把表清空（truncate） `umr_menu`
@@ -723,6 +714,7 @@ INSERT INTO `umr_menu` (`id`, `parentid`, `app`, `model`, `action`, `data`, `typ
 -- 表的结构 `umr_nav`
 --
 
+DROP TABLE IF EXISTS `umr_nav`;
 CREATE TABLE `umr_nav` (
   `id` int(11) NOT NULL,
   `cid` int(11) NOT NULL COMMENT '导航分类 id',
@@ -737,10 +729,6 @@ CREATE TABLE `umr_nav` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='前台导航表';
 
 --
--- 表的关联 `umr_nav`:
---
-
---
 -- 插入之前先把表清空（truncate） `umr_nav`
 --
 
@@ -751,8 +739,8 @@ TRUNCATE TABLE `umr_nav`;
 
 INSERT INTO `umr_nav` (`id`, `cid`, `parentid`, `label`, `target`, `href`, `icon`, `status`, `listorder`, `path`) VALUES
 (1, 1, 0, '首页', '', 'home', '', 1, 0, '0-1'),
-(2, 1, 0, '列表演示', '', 'a:2:{s:6:"action";s:17:"Portal/List/index";s:5:"param";a:1:{s:2:"id";s:1:"1";}}', '', 1, 0, '0-2'),
-(3, 1, 0, '瀑布流', '', 'a:2:{s:6:"action";s:17:"Portal/List/index";s:5:"param";a:1:{s:2:"id";s:1:"2";}}', '', 1, 0, '0-3');
+(2, 1, 0, '内容列表', '', 'a:2:{s:6:"action";s:24:"Portal/List/list_content";s:5:"param";a:0:{}}', '', 1, 0, '0-2'),
+(3, 1, 0, '瀑布流', '', 'a:2:{s:6:"action";s:17:"Portal/List/index";s:5:"param";a:1:{s:2:"id";s:1:"3";}}', '', 1, 0, '0-3');
 
 -- --------------------------------------------------------
 
@@ -760,16 +748,13 @@ INSERT INTO `umr_nav` (`id`, `cid`, `parentid`, `label`, `target`, `href`, `icon
 -- 表的结构 `umr_nav_cat`
 --
 
+DROP TABLE IF EXISTS `umr_nav_cat`;
 CREATE TABLE `umr_nav_cat` (
   `navcid` int(11) NOT NULL,
   `name` varchar(255) NOT NULL COMMENT '导航分类名',
   `active` int(1) NOT NULL DEFAULT '1' COMMENT '是否为主菜单，1是，0不是',
   `remark` text COMMENT '备注'
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='前台导航分类表';
-
---
--- 表的关联 `umr_nav_cat`:
---
 
 --
 -- 插入之前先把表清空（truncate） `umr_nav_cat`
@@ -789,6 +774,7 @@ INSERT INTO `umr_nav_cat` (`navcid`, `name`, `active`, `remark`) VALUES
 -- 表的结构 `umr_oauth_user`
 --
 
+DROP TABLE IF EXISTS `umr_oauth_user`;
 CREATE TABLE `umr_oauth_user` (
   `id` int(20) NOT NULL,
   `from` varchar(20) NOT NULL COMMENT '用户来源key',
@@ -806,25 +792,23 @@ CREATE TABLE `umr_oauth_user` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='第三方用户表';
 
 --
--- 表的关联 `umr_oauth_user`:
+-- 插入之前先把表清空（truncate） `umr_oauth_user`
 --
 
+TRUNCATE TABLE `umr_oauth_user`;
 -- --------------------------------------------------------
 
 --
 -- 表的结构 `umr_options`
 --
 
+DROP TABLE IF EXISTS `umr_options`;
 CREATE TABLE `umr_options` (
   `option_id` bigint(20) UNSIGNED NOT NULL,
   `option_name` varchar(64) NOT NULL COMMENT '配置名',
   `option_value` longtext NOT NULL COMMENT '配置值',
   `autoload` int(2) NOT NULL DEFAULT '1' COMMENT '是否自动加载'
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='全站配置表';
-
---
--- 表的关联 `umr_options`:
---
 
 --
 -- 插入之前先把表清空（truncate） `umr_options`
@@ -846,6 +830,7 @@ INSERT INTO `umr_options` (`option_id`, `option_name`, `option_value`, `autoload
 -- 表的结构 `umr_plugins`
 --
 
+DROP TABLE IF EXISTS `umr_plugins`;
 CREATE TABLE `umr_plugins` (
   `id` int(11) UNSIGNED NOT NULL COMMENT '自增id',
   `name` varchar(50) NOT NULL COMMENT '插件名，英文',
@@ -861,10 +846,6 @@ CREATE TABLE `umr_plugins` (
   `createtime` int(11) UNSIGNED NOT NULL DEFAULT '0' COMMENT '插件安装时间',
   `listorder` smallint(6) NOT NULL DEFAULT '0' COMMENT '排序'
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='插件表';
-
---
--- 表的关联 `umr_plugins`:
---
 
 --
 -- 插入之前先把表清空（truncate） `umr_plugins`
@@ -885,6 +866,7 @@ INSERT INTO `umr_plugins` (`id`, `name`, `title`, `description`, `type`, `status
 -- 表的结构 `umr_posts`
 --
 
+DROP TABLE IF EXISTS `umr_posts`;
 CREATE TABLE `umr_posts` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `post_author` bigint(20) UNSIGNED DEFAULT '0' COMMENT '发表者id',
@@ -909,16 +891,13 @@ CREATE TABLE `umr_posts` (
   `recommended` tinyint(1) NOT NULL DEFAULT '0' COMMENT '推荐 1推荐 0不推荐'
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Portal文章表';
 
---
--- 表的关联 `umr_posts`:
---
-
 -- --------------------------------------------------------
 
 --
 -- 表的结构 `umr_role`
 --
 
+DROP TABLE IF EXISTS `umr_role`;
 CREATE TABLE `umr_role` (
   `id` int(11) UNSIGNED NOT NULL,
   `name` varchar(20) NOT NULL COMMENT '角色名称',
@@ -929,10 +908,6 @@ CREATE TABLE `umr_role` (
   `update_time` int(11) UNSIGNED NOT NULL DEFAULT '0' COMMENT '更新时间',
   `listorder` int(3) NOT NULL DEFAULT '0' COMMENT '排序字段'
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='角色表';
-
---
--- 表的关联 `umr_role`:
---
 
 --
 -- 插入之前先把表清空（truncate） `umr_role`
@@ -953,14 +928,11 @@ INSERT INTO `umr_role` (`id`, `name`, `pid`, `status`, `remark`, `create_time`, 
 -- 表的结构 `umr_role_user`
 --
 
+DROP TABLE IF EXISTS `umr_role_user`;
 CREATE TABLE `umr_role_user` (
   `role_id` int(11) UNSIGNED DEFAULT '0' COMMENT '角色 id',
   `user_id` int(11) DEFAULT '0' COMMENT '用户id'
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='用户角色对应表';
-
---
--- 表的关联 `umr_role_user`:
---
 
 --
 -- 插入之前先把表清空（truncate） `umr_role_user`
@@ -973,6 +945,7 @@ TRUNCATE TABLE `umr_role_user`;
 -- 表的结构 `umr_route`
 --
 
+DROP TABLE IF EXISTS `umr_route`;
 CREATE TABLE `umr_route` (
   `id` int(11) NOT NULL COMMENT '路由id',
   `full_url` varchar(255) DEFAULT NULL COMMENT '完整url， 如：portal/list/index?id=1',
@@ -980,10 +953,6 @@ CREATE TABLE `umr_route` (
   `listorder` int(5) DEFAULT '0' COMMENT '排序，优先级，越小优先级越高',
   `status` tinyint(1) DEFAULT '1' COMMENT '状态，1：启用 ;0：不启用'
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='url路由表';
-
---
--- 表的关联 `umr_route`:
---
 
 --
 -- 插入之前先把表清空（truncate） `umr_route`
@@ -996,6 +965,7 @@ TRUNCATE TABLE `umr_route`;
 -- 表的结构 `umr_slide`
 --
 
+DROP TABLE IF EXISTS `umr_slide`;
 CREATE TABLE `umr_slide` (
   `slide_id` bigint(20) UNSIGNED NOT NULL,
   `slide_cid` int(11) NOT NULL COMMENT '幻灯片分类 id',
@@ -1009,15 +979,17 @@ CREATE TABLE `umr_slide` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='幻灯片表';
 
 --
--- 表的关联 `umr_slide`:
+-- 插入之前先把表清空（truncate） `umr_slide`
 --
 
+TRUNCATE TABLE `umr_slide`;
 -- --------------------------------------------------------
 
 --
 -- 表的结构 `umr_slide_cat`
 --
 
+DROP TABLE IF EXISTS `umr_slide_cat`;
 CREATE TABLE `umr_slide_cat` (
   `cid` int(11) NOT NULL,
   `cat_name` varchar(255) NOT NULL COMMENT '幻灯片分类',
@@ -1027,15 +999,17 @@ CREATE TABLE `umr_slide_cat` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='幻灯片分类表';
 
 --
--- 表的关联 `umr_slide_cat`:
+-- 插入之前先把表清空（truncate） `umr_slide_cat`
 --
 
+TRUNCATE TABLE `umr_slide_cat`;
 -- --------------------------------------------------------
 
 --
 -- 表的结构 `umr_terms`
 --
 
+DROP TABLE IF EXISTS `umr_terms`;
 CREATE TABLE `umr_terms` (
   `term_id` bigint(20) UNSIGNED NOT NULL COMMENT '分类id',
   `name` varchar(200) DEFAULT NULL COMMENT '分类名称',
@@ -1055,10 +1029,6 @@ CREATE TABLE `umr_terms` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Portal 文章分类表';
 
 --
--- 表的关联 `umr_terms`:
---
-
---
 -- 插入之前先把表清空（truncate） `umr_terms`
 --
 
@@ -1068,10 +1038,10 @@ TRUNCATE TABLE `umr_terms`;
 --
 
 INSERT INTO `umr_terms` (`term_id`, `name`, `slug`, `taxonomy`, `description`, `parent`, `count`, `path`, `seo_title`, `seo_keywords`, `seo_description`, `list_tpl`, `one_tpl`, `listorder`, `status`) VALUES
-(2, '论文', '', 'article', '', 0, 0, '0-2', '', '', '', 'list', 'article', 0, 1),
-(3, '项目', '', 'article', '', 0, 0, '0-4', '', '', '', 'list', 'article', 0, 1),
-(4, '获奖', '', 'article', '', 0, 0, '0-5', '', '', '', 'list', 'article', 0, 1),
-(5, '专利', '', 'article', '', 0, 0, '0-6', '', '', '', 'list', 'article', 0, 1);
+(2, '论文', '', 'article', '', 0, 0, '0-2', '', '', '', 'list', 'content_paper', 0, 1),
+(3, '项目', '', 'article', '', 0, 0, '0-4', '', '', '', 'list', 'content_project', 0, 1),
+(4, '获奖', '', 'article', '', 0, 0, '0-5', '', '', '', 'list', 'content_award', 0, 1),
+(5, '专利', '', 'article', '', 0, 0, '0-6', '', '', '', 'list', 'content_patent', 0, 1);
 
 -- --------------------------------------------------------
 
@@ -1079,6 +1049,7 @@ INSERT INTO `umr_terms` (`term_id`, `name`, `slug`, `taxonomy`, `description`, `
 -- 表的结构 `umr_term_relationships`
 --
 
+DROP TABLE IF EXISTS `umr_term_relationships`;
 CREATE TABLE `umr_term_relationships` (
   `tid` bigint(20) NOT NULL,
   `object_id` char(36) NOT NULL DEFAULT '0' COMMENT 'content/post表里文章uuid',
@@ -1087,16 +1058,13 @@ CREATE TABLE `umr_term_relationships` (
   `status` int(2) NOT NULL DEFAULT '1' COMMENT '状态，1发布，0不发布'
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Portal 文章分类对应表';
 
---
--- 表的关联 `umr_term_relationships`:
---
-
 -- --------------------------------------------------------
 
 --
 -- 表的结构 `umr_users`
 --
 
+DROP TABLE IF EXISTS `umr_users`;
 CREATE TABLE `umr_users` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `user_login` varchar(60) NOT NULL DEFAULT '' COMMENT '用户名(智慧校园账号)',
@@ -1120,16 +1088,13 @@ CREATE TABLE `umr_users` (
   `mobile` varchar(20) NOT NULL DEFAULT '' COMMENT '手机号'
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='用户表';
 
---
--- 表的关联 `umr_users`:
---
-
 -- --------------------------------------------------------
 
 --
 -- 表的结构 `umr_user_favorites`
 --
 
+DROP TABLE IF EXISTS `umr_user_favorites`;
 CREATE TABLE `umr_user_favorites` (
   `id` int(11) NOT NULL,
   `uid` bigint(20) DEFAULT NULL COMMENT '用户 id',
@@ -1140,10 +1105,6 @@ CREATE TABLE `umr_user_favorites` (
   `object_id` int(11) DEFAULT NULL COMMENT '收藏内容原来的主键id',
   `createtime` int(11) DEFAULT NULL COMMENT '收藏时间'
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='用户收藏表';
-
---
--- 表的关联 `umr_user_favorites`:
---
 
 -- --------------------------------------------------------
 
@@ -1250,6 +1211,13 @@ ALTER TABLE `umr_content_project`
 --
 ALTER TABLE `umr_guestbook`
   ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `umr_like`
+--
+ALTER TABLE `umr_like`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `unique` (`user_id`,`object_id`);
 
 --
 -- Indexes for table `umr_links`
@@ -1396,17 +1364,22 @@ ALTER TABLE `umr_auth_rule`
 -- 使用表AUTO_INCREMENT `umr_comments`
 --
 ALTER TABLE `umr_comments`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 --
 -- 使用表AUTO_INCREMENT `umr_common_action_log`
 --
 ALTER TABLE `umr_common_action_log`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 --
 -- 使用表AUTO_INCREMENT `umr_guestbook`
 --
 ALTER TABLE `umr_guestbook`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- 使用表AUTO_INCREMENT `umr_like`
+--
+ALTER TABLE `umr_like`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 --
 -- 使用表AUTO_INCREMENT `umr_links`
 --
@@ -1446,7 +1419,7 @@ ALTER TABLE `umr_plugins`
 -- 使用表AUTO_INCREMENT `umr_posts`
 --
 ALTER TABLE `umr_posts`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
 -- 使用表AUTO_INCREMENT `umr_role`
 --
@@ -1476,17 +1449,17 @@ ALTER TABLE `umr_terms`
 -- 使用表AUTO_INCREMENT `umr_term_relationships`
 --
 ALTER TABLE `umr_term_relationships`
-  MODIFY `tid` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `tid` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=54;
 --
 -- 使用表AUTO_INCREMENT `umr_users`
 --
 ALTER TABLE `umr_users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 --
 -- 使用表AUTO_INCREMENT `umr_user_favorites`
 --
 ALTER TABLE `umr_user_favorites`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;COMMIT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

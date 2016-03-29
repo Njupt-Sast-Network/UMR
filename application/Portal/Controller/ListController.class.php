@@ -71,8 +71,10 @@ class ListController extends HomebaseController {
         $map['id'] = array( 'in', $obj_id );//判断文章是否被删除；
         $list = $dbContent->where($map)->order('post_date desc')->select();
 		for ($i = 0;$i<count($list);$i++){
-			$user = M('users')->where('id='.$list[$i]['post_author'])->select();
-			$list[$i]['author'] = $user[0]['user_name'];
+			$user = M('users')->where('id='.$list[$i]['post_author'])->find();
+
+			$list[$i]['author'] = $user['user_name'];
+			$list[$i]['like_list'] = D('like')->getLikeByUUID($list[$i]['id'],true);
 			switch ($list[$i]['table_name']){
 				case 'content_paper': $list[$i]['content_type'] = '论文';
 					break;

@@ -46,6 +46,7 @@
                                     <a href="javascript:;"><i class="fa fa-eye"></i><span>{$vo.post_hits}</span></a>
                                     <a href="{:U('article/do_like',array('id'=>$vo['id']))}"
                                        class="js-count-btn"><i class="fa fa-thumbs-up"></i><span class="count">{$vo.post_like}</span></a>
+                                    <span><?= !empty($vo['like_list'])?$vo['like_list'].' 点了赞':'' ?></span>
 
                                 </div>
                             </div>
